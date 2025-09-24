@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://drw5d8axmoyh8"]
+
+[ext_resource type="Texture2D" uid="uid://bx3tbg27qqpmc" path="res://assets/ui/health-bar.svg" id="1_y3kqx"]
+[ext_resource type="Script" uid="uid://bbtrfm6rj25d8" path="res://scenes/health_bar.gd" id="2_y3kqx"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tuyoq"]
+properties/0/path = NodePath("HealthBar:value")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("HealthBar:visible")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("HealthBar:max_value")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="HealthBar" type="TextureProgressBar"]
+visible = false
+z_index = 2
+offset_left = -48.0
+offset_top = 48.0
+offset_right = 48.0
+offset_bottom = 58.0
+value = 1.0
+nine_patch_stretch = true
+stretch_margin_left = 5
+stretch_margin_top = 5
+stretch_margin_right = 5
+stretch_margin_bottom = 5
+texture_under = ExtResource("1_y3kqx")
+texture_progress = ExtResource("1_y3kqx")
+tint_under = Color(0.3019608, 0.3019608, 0.3019608, 1)
+tint_progress = Color(0.42745098, 0.8509804, 0.32156864, 1)
+script = ExtResource("2_y3kqx")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("../..")
+replication_config = SubResource("SceneReplicationConfig_tuyoq")

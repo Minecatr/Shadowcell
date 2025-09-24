@@ -1,0 +1,128 @@
+[gd_scene load_steps=10 format=3 uid="uid://t01pmgdfsgjj"]
+
+[ext_resource type="Texture2D" uid="uid://dyng4l6hiaa48" path="res://assets/weapons/pistol/flash.svg" id="1_60a84"]
+[ext_resource type="Script" uid="uid://bekwo70mc6wu2" path="res://scenes/weapons/gun.gd" id="1_ivc8v"]
+[ext_resource type="Texture2D" uid="uid://cgmejwofn55rx" path="res://assets/weapons/pistol/barrel.svg" id="2_ivc8v"]
+[ext_resource type="Texture2D" uid="uid://b1i5tg3l5pxf7" path="res://assets/weapons/pistol/prime.svg" id="3_t1ie7"]
+[ext_resource type="PackedScene" uid="uid://ck1kamdanlvg1" path="res://scenes/projectile_spawner.tscn" id="6_61dc8"]
+
+[sub_resource type="Animation" id="Animation_red3f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Prime:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(12, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Flash:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flash:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_61dc8"]
+resource_name = "fire"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Prime:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.05, 0.125, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(12, 0), Vector2(0, 0), Vector2(12, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Flash:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.1, 0.1), Vector2(1, 1), Vector2(0.1, 0.1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flash:visible")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c5u5x"]
+_data = {
+&"RESET": SubResource("Animation_red3f"),
+&"fire": SubResource("Animation_61dc8")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_t1ie7"]
+
+[node name="Pistol" type="Node2D"]
+script = ExtResource("1_ivc8v")
+projectile_spread = 2.0
+projectile_spacing = 15.0
+projectile_bounces = 0
+projectile_damage = 10
+high_speed_sprite = "res://assets/projectiles/high-speed-bullet.svg"
+length = 24
+high_speed_length = 32
+
+[node name="Flash" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(52, 0)
+texture = ExtResource("1_60a84")
+
+[node name="Barrel" type="Sprite2D" parent="."]
+position = Vector2(12, 0)
+texture = ExtResource("2_ivc8v")
+
+[node name="Prime" type="Sprite2D" parent="."]
+position = Vector2(12, 0)
+texture = ExtResource("3_t1ie7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_c5u5x")
+}
+
+[node name="ProjectileSpawner" parent="." instance=ExtResource("6_61dc8")]
+position = Vector2(40, 0)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_t1ie7")

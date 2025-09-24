@@ -1,0 +1,149 @@
+[gd_scene load_steps=11 format=3 uid="uid://fr3uiunlmed2"]
+
+[ext_resource type="Texture2D" uid="uid://cl4qwadisv4tc" path="res://assets/characters/silvercoast-body.svg" id="1_4ra3w"]
+[ext_resource type="Script" uid="uid://bk2ue7lmw5s8n" path="res://scenes/enemy.gd" id="1_c4w8v"]
+[ext_resource type="Texture2D" uid="uid://kqnuqcuifruc" path="res://assets/characters/silvercoast-arm.svg" id="2_5uy6h"]
+[ext_resource type="PackedScene" uid="uid://drw5d8axmoyh8" path="res://scenes/health_bar.tscn" id="3_4ra3w"]
+[ext_resource type="Texture2D" uid="uid://2cuksb5bgn8w" path="res://assets/weapons/katana/katana.svg" id="3_5uy6h"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ra3w"]
+radius = 44.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4ra3w"]
+properties/0/path = NodePath("..:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("..:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("../Body:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="Animation" id="Animation_c4w8v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../..:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.7853981633974483]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.5235988]
+}
+
+[sub_resource type="Animation" id="Animation_5uy6h"]
+resource_name = "swing"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../..:rotation")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.7853981633974483, -0.7853981633974483, 0.7853982]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-0.5235988, -1.5707963267948966, -0.5235988]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xwavj"]
+_data = {
+&"RESET": SubResource("Animation_c4w8v"),
+&"swing": SubResource("Animation_5uy6h")
+}
+
+[node name="enemy" type="CharacterBody2D" groups=["Enemy", "Object"]]
+scale = Vector2(0.5, 0.5)
+collision_mask = 3
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_c4w8v")
+target_range = 80
+
+[node name="Body" type="Sprite2D" parent="."]
+texture = ExtResource("1_4ra3w")
+
+[node name="Arms" type="Node2D" parent="Body"]
+show_behind_parent = true
+rotation = 0.7853982
+
+[node name="LeftArm" type="Node2D" parent="Body/Arms"]
+position = Vector2(19.2, -25.6)
+rotation = 0.5235988
+
+[node name="Arm" type="Sprite2D" parent="Body/Arms/LeftArm"]
+position = Vector2(24, 0)
+texture = ExtResource("2_5uy6h")
+
+[node name="RightArm" type="Node2D" parent="Body/Arms"]
+position = Vector2(19.2, 25.6)
+rotation = -0.5235988
+
+[node name="Arm" type="Sprite2D" parent="Body/Arms/RightArm"]
+position = Vector2(24, 0)
+texture = ExtResource("2_5uy6h")
+
+[node name="Hand" type="Node2D" parent="Body/Arms/RightArm"]
+position = Vector2(51.6, 0.232)
+rotation = -0.5235988
+
+[node name="Katana" type="Node2D" parent="Body/Arms/RightArm/Hand"]
+
+[node name="Katana" type="Sprite2D" parent="Body/Arms/RightArm/Hand/Katana"]
+z_index = -1
+position = Vector2(-72, 0)
+rotation = -3.1415854
+texture = ExtResource("3_5uy6h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4ra3w")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+root_path = NodePath("../HealthBar")
+replication_config = SubResource("SceneReplicationConfig_4ra3w")
+
+[node name="HealthBar" parent="." instance=ExtResource("3_4ra3w")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Body/Arms/RightArm/Hand/Katana")
+libraries = {
+&"": SubResource("AnimationLibrary_xwavj")
+}
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="AttackCooldown" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]

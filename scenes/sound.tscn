@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bddb6j0o3gged"]
+
+[ext_resource type="AudioStream" uid="uid://corg1gawxdjiy" path="res://assets/sounds/shoot.wav" id="1_4lc31"]
+[ext_resource type="Script" uid="uid://ouhlv41hj6mu" path="res://scenes/sound.gd" id="2_4lc31"]
+
+[node name="Sound" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_4lc31")
+volume_db = -10.0
+autoplay = true
+script = ExtResource("2_4lc31")
+
+[connection signal="finished" from="." to="." method="_on_finished"]
