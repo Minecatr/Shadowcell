@@ -1,0 +1,126 @@
+[gd_scene format=3 uid="uid://c5ulhj4c02mn2"]
+
+[ext_resource type="Script" uid="uid://bekwo70mc6wu2" path="res://scenes/weapons/gun.gd" id="1_cwr1y"]
+[ext_resource type="AudioStream" uid="uid://br66rdx3ncptm" path="res://assets/sounds/bow-shoot.wav" id="3_cwr1y"]
+[ext_resource type="Texture2D" uid="uid://bs8i5hs1mfk2w" path="res://assets/sprites/weapons/bow/bow-frame.svg" id="3_rs3f0"]
+[ext_resource type="Texture2D" uid="uid://8h1os2aeyb7g" path="res://assets/sprites/weapons/arrow.svg" id="4_cwr1y"]
+[ext_resource type="PackedScene" uid="uid://ck1kamdanlvg1" path="res://scenes/projectile_spawner.tscn" id="5_jug75"]
+
+[sub_resource type="Animation" id="Animation_red3f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arrow:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-8, -24)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Arrow:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("String:points")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [PackedVector2Array(-16, -30, -44, 0, -16, 30)]
+}
+
+[sub_resource type="Animation" id="Animation_61dc8"]
+resource_name = "fire"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Arrow:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.033333335, 0.2, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-8, -24), Vector2(20, -24), Vector2(20, -24), Vector2(-8, -24)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Arrow:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("String:points")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.03333334, 0.2, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [PackedVector2Array(-16, -30, -44, 0, -16, 30), PackedVector2Array(-16, -30, -16, 0, -16, 30), PackedVector2Array(-16, -30, -16, 0, -16, 30), PackedVector2Array(-16, -30, -44, 0, -16, 30)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c5u5x"]
+_data = {
+&"RESET": SubResource("Animation_red3f"),
+&"fire": SubResource("Animation_61dc8")
+}
+
+[node name="Bow" type="Node2D" unique_id=1898433303]
+script = ExtResource("1_cwr1y")
+equip_animation = "character_animations/equip-bow"
+use_animation = "character_animations/use-bow"
+firerate_multiplier = 1
+barrel_length = 10
+double_animations = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1574400075]
+libraries/ = SubResource("AnimationLibrary_c5u5x")
+
+[node name="ProjectileSpawner" parent="." unique_id=2099044993 instance=ExtResource("5_jug75")]
+sound = ExtResource("3_cwr1y")
+projectile_speed = 750
+projectile_pierce = 1
+projectile_damage = 30
+sprite = "arrow"
+
+[node name="String" type="Line2D" parent="." unique_id=1897939766]
+position = Vector2(8, -24)
+points = PackedVector2Array(-16, -30, -44, 0, -16, 30)
+width = 8.0
+default_color = Color(0.21176471, 0.21176471, 0.21176471, 1)
+joint_mode = 2
+
+[node name="Frame" type="Sprite2D" parent="." unique_id=1684403819]
+position = Vector2(0, -24)
+texture = ExtResource("3_rs3f0")
+
+[node name="Arrow" type="Sprite2D" parent="." unique_id=1703194120]
+position = Vector2(-8, -24)
+texture = ExtResource("4_cwr1y")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

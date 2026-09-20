@@ -1,0 +1,151 @@
+[gd_scene format=3 uid="uid://575vy2mmuwe2"]
+
+[ext_resource type="Script" uid="uid://bqyqrbxxc2eu8" path="res://scenes/join_card.gd" id="1_jc1lf"]
+[ext_resource type="Texture2D" uid="uid://d0xasr7hnpfqp" path="res://assets/ui/arrow.svg" id="1_xb4o3"]
+[ext_resource type="Texture2D" uid="uid://cgffb7dtrts05" path="res://assets/sprites/characters/default-body.svg" id="2_368b6"]
+[ext_resource type="Texture2D" uid="uid://dr6mqg80y8f0v" path="res://assets/sprites/weapons/shuriken.svg" id="3_jc1lf"]
+[ext_resource type="Texture2D" uid="uid://chslq08vtuxx8" path="res://assets/prompts/Xbox Series/XboxSeriesX_A.png" id="4_pxsg4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w7kh3"]
+bg_color = Color(0.87058824, 0.18431373, 0.29803923, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e3hyu"]
+bg_color = Color(0.35686275, 0.8666667, 0.2901961, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q5onr"]
+bg_color = Color(1.1805121, 0.2644455, 0.4162508, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jhx03"]
+bg_color = Color(0.4947708, 1.1752774, 0.4057815, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Full" type="PanelContainer" unique_id=225504451]
+custom_minimum_size = Vector2(192, 0)
+anchor_right = 0.16700001
+anchor_bottom = 0.395
+offset_right = -0.38401794
+offset_bottom = 0.039993286
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_jc1lf")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=362693856]
+layout_mode = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2031008067]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=335882850]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Player"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Character" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1040095855]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="CharacterLeft" type="TextureButton" parent="MarginContainer/VBoxContainer/Character" unique_id=1060424306]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture_normal = ExtResource("1_xb4o3")
+stretch_mode = 3
+flip_h = true
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/Character" unique_id=390470683]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+texture = ExtResource("2_368b6")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CharacterRight" type="TextureButton" parent="MarginContainer/VBoxContainer/Character" unique_id=1973017122]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture_normal = ExtResource("1_xb4o3")
+stretch_mode = 3
+
+[node name="Weapon" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=2099739947]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="WeaponLeft" type="TextureButton" parent="MarginContainer/VBoxContainer/Weapon" unique_id=852494410]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture_normal = ExtResource("1_xb4o3")
+stretch_mode = 3
+flip_h = true
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/Weapon" unique_id=999199349]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+texture = ExtResource("3_jc1lf")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="WeaponRight" type="TextureButton" parent="MarginContainer/VBoxContainer/Weapon" unique_id=1606273497]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture_normal = ExtResource("1_xb4o3")
+stretch_mode = 3
+
+[node name="Ready" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1408253664]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_w7kh3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e3hyu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_q5onr")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_jhx03")
+toggle_mode = true
+text = "Unready"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=73586673]
+visible = false
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=485922777]
+layout_mode = 2
+text = "Press"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=145793463]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+texture = ExtResource("4_pxsg4")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label2" type="Label" parent="VBoxContainer" unique_id=742490613]
+layout_mode = 2
+text = "To Join"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Character/CharacterLeft" to="." method="_on_character_left_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Character/CharacterRight" to="." method="_on_character_right_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Weapon/WeaponLeft" to="." method="_on_weapon_left_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Weapon/WeaponRight" to="." method="_on_weapon_right_pressed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/Ready" to="." method="_on_ready_toggled"]

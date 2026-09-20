@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://c05q4xuein7s8"]
+
+[ext_resource type="Script" uid="uid://bk2ue7lmw5s8n" path="res://scenes/enemy.gd" id="1_ercwy"]
+[ext_resource type="Texture2D" uid="uid://bakvqs71ea04m" path="res://assets/sprites/characters/sunchain-body.svg" id="2_02lc4"]
+[ext_resource type="Texture2D" uid="uid://creq6pmb3imns" path="res://assets/sprites/characters/sunchain-arm.svg" id="3_b2cv0"]
+[ext_resource type="PackedScene" uid="uid://c5ulhj4c02mn2" path="res://scenes/weapons/bow.tscn" id="4_ercwy"]
+[ext_resource type="PackedScene" uid="uid://drw5d8axmoyh8" path="res://scenes/health_bar.tscn" id="5_eofng"]
+[ext_resource type="AnimationLibrary" uid="uid://bnysoijjrif2g" path="res://character_animations.res" id="6_mlipu"]
+[ext_resource type="PackedScene" uid="uid://dk845e00he3xr" path="res://scenes/stun.tscn" id="7_02lc4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ra3w"]
+radius = 44.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4ra3w"]
+properties/0/path = NodePath("..:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("..:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("../Body:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="Animation" id="Animation_ercwy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body/Arms/LeftArm:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.7853982]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_02lc4"]
+_data = {
+&"RESET": SubResource("Animation_ercwy")
+}
+
+[node name="enemy" type="CharacterBody2D" unique_id=213968785 groups=["Enemy", "Object"]]
+scale = Vector2(0.5, 0.5)
+collision_mask = 3
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_ercwy")
+damage = 40
+target_range = 256
+flee = 128
+
+[node name="Body" type="Sprite2D" parent="." unique_id=1484424468]
+texture = ExtResource("2_02lc4")
+
+[node name="Arms" type="Node2D" parent="Body" unique_id=1670007374]
+show_behind_parent = true
+
+[node name="LeftArm" type="Node2D" parent="Body/Arms" unique_id=351144944]
+position = Vector2(19.2, -25.6)
+rotation = 0.7853982
+
+[node name="Arm" type="Sprite2D" parent="Body/Arms/LeftArm" unique_id=532849991]
+position = Vector2(24, 0)
+texture = ExtResource("3_b2cv0")
+
+[node name="RightArm" type="Node2D" parent="Body/Arms" unique_id=1943575992]
+position = Vector2(19.2, 25.6)
+rotation = -1.5708
+
+[node name="Arm" type="Sprite2D" parent="Body/Arms/RightArm" unique_id=603962197]
+position = Vector2(24, 0)
+texture = ExtResource("3_b2cv0")
+
+[node name="Hand" type="Node2D" parent="Body/Arms/RightArm" unique_id=1420319942]
+position = Vector2(51.6, 0.232)
+rotation = -1.5708
+
+[node name="Bow" parent="Body/Arms/RightArm/Hand" unique_id=1898433303 instance=ExtResource("4_ercwy")]
+hit_group = "Player"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1521031619]
+shape = SubResource("CircleShape2D_4ra3w")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1736226280]
+root_path = NodePath("../HealthBar")
+replication_config = SubResource("SceneReplicationConfig_4ra3w")
+
+[node name="HealthBar" parent="." unique_id=774246212 instance=ExtResource("5_eofng")]
+
+[node name="Timer" type="Timer" parent="." unique_id=1929224366]
+
+[node name="AttackCooldown" type="Timer" parent="." unique_id=892899305]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=188731459]
+libraries/ = SubResource("AnimationLibrary_02lc4")
+libraries/character_animations = ExtResource("6_mlipu")
+
+[node name="Stun" parent="." unique_id=1631981921 instance=ExtResource("7_02lc4")]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

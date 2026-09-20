@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://f7jcagyqbk6o"]
+
+[ext_resource type="Script" uid="uid://cxr3l0qk53xv3" path="res://scenes/skill_button.gd" id="1_n3pki"]
+
+[node name="Skill 1" type="Button" unique_id=1489416767]
+size_flags_horizontal = 3
+text = "Shattering III"
+script = ExtResource("1_n3pki")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

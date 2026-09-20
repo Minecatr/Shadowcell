@@ -1,6 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://bgc6y2mvexwr8"]
+[gd_scene format=3 uid="uid://bgc6y2mvexwr8"]
 
 [ext_resource type="Script" uid="uid://ddcoyi0r7h3ld" path="res://scenes/projectile.gd" id="1_q3m7n"]
+[ext_resource type="Script" uid="uid://ccb8yg8fnnams" path="res://addons/trail_2d/trail_2d.gd" id="2_q3m7n"]
+
+[sub_resource type="Curve" id="Curve_q3m7n"]
+_data = [Vector2(0, 1), 0.0, -0.2255362, 0, 0, Vector2(1, 0), -1.8481447, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_q3m7n"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_c8fcr"]
 properties/0/path = NodePath(".:position")
@@ -14,21 +22,32 @@ properties/2/spawn = true
 properties/2/replication_mode = 1
 properties/3/path = NodePath(".:scale")
 properties/3/spawn = true
-properties/3/replication_mode = 1
+properties/3/replication_mode = 0
 properties/4/path = NodePath(".:sprite_name")
 properties/4/spawn = true
-properties/4/replication_mode = 1
+properties/4/replication_mode = 0
+properties/5/path = NodePath(".:rotation_speed")
+properties/5/spawn = true
+properties/5/replication_mode = 0
 
-[node name="projectile" type="RayCast2D"]
-target_position = Vector2(24, 0)
+[node name="projectile" type="RayCast2D" unique_id=900077893]
+target_position = Vector2(0, 0)
 collision_mask = 3
-hit_from_inside = true
 script = ExtResource("1_q3m7n")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="Trail2D" type="Line2D" parent="." unique_id=1670768415]
+visible = false
+z_index = -2
+width_curve = SubResource("Curve_q3m7n")
+gradient = SubResource("Gradient_q3m7n")
+joint_mode = 2
+begin_cap_mode = 2
+script = ExtResource("2_q3m7n")
+metadata/_custom_type_script = "uid://ccb8yg8fnnams"
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1508246144]
 z_index = -1
-position = Vector2(12, 0)
 scale = Vector2(0.5, 0.5)
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=122873280]
 replication_config = SubResource("SceneReplicationConfig_c8fcr")

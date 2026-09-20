@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://go8ffhihl0vp"]
+
+[ext_resource type="Script" uid="uid://bekwo70mc6wu2" path="res://scenes/weapons/gun.gd" id="1_jthcq"]
+[ext_resource type="AudioStream" uid="uid://d2mp2csgs823a" path="res://assets/sounds/throw.wav" id="3_hp1cq"]
+[ext_resource type="PackedScene" uid="uid://ck1kamdanlvg1" path="res://scenes/projectile_spawner.tscn" id="5_2c17a"]
+
+[sub_resource type="Animation" id="Animation_red3f"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_61dc8"]
+resource_name = "fire"
+length = 0.5
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c5u5x"]
+_data = {
+&"RESET": SubResource("Animation_red3f"),
+&"fire": SubResource("Animation_61dc8")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_t1ie7"]
+
+[node name="Shuriken" type="Node2D" unique_id=1742790967]
+script = ExtResource("1_jthcq")
+equip_animation = "character_animations/equip-throwable"
+use_animation = "character_animations/throw"
+firerate_multiplier = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=600947460]
+libraries/ = SubResource("AnimationLibrary_c5u5x")
+
+[node name="ProjectileSpawner" parent="." unique_id=807861266 instance=ExtResource("5_2c17a")]
+sound = ExtResource("3_hp1cq")
+projectile_speed = 500
+projectile_damage = 40
+projectile_rotation_speed = 0.5
+sprite = "shuriken"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1765974099]
+replication_config = SubResource("SceneReplicationConfig_t1ie7")

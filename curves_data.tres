@@ -1,0 +1,9 @@
+[gd_resource type="BulletCurvesData2D" format=3 uid="uid://1m8ypjhrqx0q"]
+
+[sub_resource type="Curve" id="Curve_7bwwg"]
+_data = [Vector2(0, 1), 1.4, 0.0, 0, 0, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[resource]
+movement_speed_curve = SubResource("Curve_7bwwg")
+rotation_speed_curve = SubResource("Curve_7bwwg")

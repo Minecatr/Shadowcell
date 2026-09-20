@@ -1,0 +1,17 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://6o120uwya0lh"]
+
+[ext_resource type="Texture2D" uid="uid://dmjhhukr80kbq" path="res://assets/sprites/stun-outline.svg" id="1_t2jc8"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_t2jc8")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 1,
+"name": &"default",
+"speed": 15.0
+}]

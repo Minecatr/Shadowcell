@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://bycn4ftv2x2ce"]
+
+[ext_resource type="Theme" uid="uid://ccefvftjbaoun" path="res://hud-theme.tres" id="1_bow2h"]
+[ext_resource type="PackedScene" uid="uid://575vy2mmuwe2" path="res://scenes/join_card.tscn" id="2_uxcyu"]
+[ext_resource type="PackedScene" uid="uid://c41gttdgd8sx2" path="res://scenes/join_card_empty.tscn" id="3_fa52j"]
+
+[node name="CharacterSelect" type="Control" unique_id=775032565]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_bow2h")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=329159679]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -132.0
+offset_right = 584.0
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Full" parent="HBoxContainer" unique_id=342544897 instance=ExtResource("2_uxcyu")]
+layout_mode = 2
+
+[node name="Empty" parent="HBoxContainer" unique_id=1585821832 instance=ExtResource("3_fa52j")]
+visible = false
+layout_mode = 2
+
+[node name="Empty2" parent="HBoxContainer" unique_id=1464965478 instance=ExtResource("3_fa52j")]
+visible = false
+layout_mode = 2
+
+[node name="Empty3" parent="HBoxContainer" unique_id=551121219 instance=ExtResource("3_fa52j")]
+visible = false
+layout_mode = 2

@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="SHADOWCELL"
 run/main_scene="uid://bn5xa6cknp4xt"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 boot_splash/image="uid://bp2r5448glqx5"
 config/icon="res://icon.svg"
 
@@ -28,7 +32,7 @@ version_control/autoload_on_startup=true
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/TileMapDual/plugin.cfg")
+enabled=PackedStringArray("res://addons/TileMapDual/plugin.cfg", "res://addons/trail_2d/plugin.cfg")
 
 [global_group]
 
@@ -36,6 +40,7 @@ Player=""
 Map=""
 Enemy=""
 Object=""
+Coin=""
 
 [input]
 
@@ -97,4 +102,4 @@ cheat={
 
 [rendering]
 
-environment/defaults/default_clear_color=Color(0.47843137, 0.47843137, 0.47843137, 1)
+environment/defaults/default_clear_color=Color(0.16163254, 0.53446287, 0.752969, 1)

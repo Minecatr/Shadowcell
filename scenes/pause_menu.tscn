@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://5vov0ddwt72k"]
+
+[ext_resource type="Theme" uid="uid://ccefvftjbaoun" path="res://hud-theme.tres" id="1_n87rw"]
+
+[node name="PauseMenu" type="Control" unique_id=1758584450]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_n87rw")
+
+[node name="Panel" type="Panel" parent="." unique_id=555739895]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=419145000]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -50.5
+offset_right = 128.0
+offset_bottom = 44.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Resume" type="Button" parent="Panel/VBoxContainer" unique_id=975899176]
+layout_mode = 2
+text = "Resume"
+
+[node name="Settings" type="Button" parent="Panel/VBoxContainer" unique_id=340221042]
+layout_mode = 2
+text = "Settings"
+
+[node name="Disconnect" type="Button" parent="Panel/VBoxContainer" unique_id=2114113634]
+layout_mode = 2
+text = "Disconnect"

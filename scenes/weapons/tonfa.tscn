@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://jh07i60fkrkc"]
+
+[ext_resource type="Script" uid="uid://dbofvat6hpta4" path="res://scenes/weapons/melee.gd" id="1_2tgs4"]
+[ext_resource type="Texture2D" uid="uid://spxaahm08rdy" path="res://assets/sprites/weapons/tonfa.svg" id="2_2tgs4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4kl6c"]
+size = Vector2(112, 64)
+
+[sub_resource type="Animation" id="Animation_4kl6c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Area2D/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_l4wdu"]
+resource_name = "use"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Area2D/CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_udeyh"]
+_data = {
+&"RESET": SubResource("Animation_4kl6c"),
+&"use": SubResource("Animation_l4wdu")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4kl6c"]
+properties/0/path = NodePath(".:scale")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Tonfa" type="Node2D" unique_id=1093061601]
+script = ExtResource("1_2tgs4")
+weapon_damage = 40
+firerate_multiplier = 1
+equip_animation = "character_animations/equip-sword"
+use_animation = "character_animations/sweep"
+
+[node name="Weapon" type="Sprite2D" parent="." unique_id=652247885]
+z_index = -1
+position = Vector2(-72, 0)
+rotation = 3.1415927
+texture = ExtResource("2_2tgs4")
+flip_v = true
+
+[node name="Area2D" type="Area2D" parent="." unique_id=339436400]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=626613988]
+position = Vector2(-56, 0)
+shape = SubResource("RectangleShape2D_4kl6c")
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1745777149]
+libraries/ = SubResource("AnimationLibrary_udeyh")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1916484832]
+replication_config = SubResource("SceneReplicationConfig_4kl6c")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bcyr0wrhsrvxx"]
+[gd_scene format=3 uid="uid://bcyr0wrhsrvxx"]
 
 [ext_resource type="Script" uid="uid://g62px1et5wts" path="res://scenes/door.gd" id="1_uvdjg"]
 [ext_resource type="Texture2D" uid="uid://d351ftvl3nf5p" path="res://assets/map/door.svg" id="2_83dcw"]
@@ -108,43 +108,43 @@ properties/3/path = NodePath(".:open")
 properties/3/spawn = true
 properties/3/replication_mode = 1
 
-[node name="Door" type="StaticBody2D" groups=["Map"]]
+[node name="Door" type="StaticBody2D" unique_id=1550536662 groups=["Map"]]
 scale = Vector2(0.5, 0.5)
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_uvdjg")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1693609124]
 position = Vector2(12, 0)
 shape = SubResource("RectangleShape2D_uvdjg")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_q5w8r")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1275318629]
+libraries/ = SubResource("AnimationLibrary_q5w8r")
 
-[node name="Entry" type="Area2D" parent="."]
+[node name="Entry" type="Area2D" parent="." unique_id=742493636]
+collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Entry"]
-position = Vector2(12, 0)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Entry" unique_id=1875737212]
+position = Vector2(-64, 0)
 shape = SubResource("RectangleShape2D_5f452")
 
-[node name="LeftHinge" type="Node2D" parent="."]
+[node name="LeftHinge" type="Node2D" parent="." unique_id=1415437205]
 position = Vector2(12, -124)
 
-[node name="LeftDoor" type="Sprite2D" parent="LeftHinge"]
+[node name="LeftDoor" type="Sprite2D" parent="LeftHinge" unique_id=1679206504]
 position = Vector2(0, 56)
 texture = ExtResource("2_83dcw")
 
-[node name="RightHinge" type="Node2D" parent="."]
+[node name="RightHinge" type="Node2D" parent="." unique_id=698178690]
 position = Vector2(12, 124)
 
-[node name="RightDoor" type="Sprite2D" parent="RightHinge"]
+[node name="RightDoor" type="Sprite2D" parent="RightHinge" unique_id=795964392]
 position = Vector2(0, -56)
 texture = ExtResource("2_83dcw")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=79534098]
 replication_config = SubResource("SceneReplicationConfig_uvdjg")
 
 [connection signal="body_entered" from="Entry" to="." method="_on_entry_body_entered"]
+[connection signal="body_exited" from="Entry" to="." method="_on_entry_body_exited"]
 [connection signal="synchronized" from="MultiplayerSynchronizer" to="." method="_on_multiplayer_synchronizer_synchronized"]

@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://c41gttdgd8sx2"]
+
+[ext_resource type="Texture2D" uid="uid://chslq08vtuxx8" path="res://assets/prompts/Xbox Series/XboxSeriesX_A.png" id="1_ffyhv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xb4o3"]
+bg_color = Color(0.5019608, 0.5019608, 0.5019608, 0.5019608)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Empty" type="PanelContainer"]
+custom_minimum_size = Vector2(192, 0)
+anchors_preset = -1
+anchor_right = 0.16666667
+anchor_bottom = 0.39506173
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xb4o3")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Press"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+texture = ExtResource("1_ffyhv")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "To Join"
+horizontal_alignment = 1

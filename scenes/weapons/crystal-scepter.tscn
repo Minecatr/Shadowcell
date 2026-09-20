@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://bfjn2gb7wyly0"]
+
+[ext_resource type="Script" uid="uid://bekwo70mc6wu2" path="res://scenes/weapons/gun.gd" id="1_05cv0"]
+[ext_resource type="Texture2D" uid="uid://c3o72yhelde1m" path="res://assets/sprites/weapons/crystal-scepter.svg" id="3_spkk0"]
+[ext_resource type="AudioStream" uid="uid://bwftjimerijuu" path="res://assets/sounds/release.wav" id="3_wa4rb"]
+[ext_resource type="PackedScene" uid="uid://ck1kamdanlvg1" path="res://scenes/projectile_spawner.tscn" id="5_wmlfb"]
+
+[sub_resource type="Animation" id="Animation_red3f"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c5u5x"]
+_data = {
+&"RESET": SubResource("Animation_red3f")
+}
+
+[node name="CrystalScepter" type="Node2D" unique_id=1898433303]
+script = ExtResource("1_05cv0")
+equip_animation = "character_animations/equip-polearm"
+use_animation = "character_animations/stab"
+firerate_multiplier = 1
+barrel_length = 50
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1574400075]
+libraries/ = SubResource("AnimationLibrary_c5u5x")
+
+[node name="ProjectileSpawner" parent="." unique_id=2099044993 instance=ExtResource("5_wmlfb")]
+sound = ExtResource("3_wa4rb")
+projectile_speed = 250
+projectile_spread = 2.0
+projectile_bounces = 1
+projectile_drag = 1.05
+projectile_damage = 20
+sprite = "crystal"
+
+[node name="Sai" type="Sprite2D" parent="." unique_id=466261126]
+z_index = -1
+position = Vector2(-72, 0)
+rotation = 3.1415927
+texture = ExtResource("3_spkk0")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

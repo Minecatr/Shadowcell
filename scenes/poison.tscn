@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bwm6ts5jlj2e7"]
+
+[ext_resource type="Script" uid="uid://dnsqr4u0cn7xo" path="res://poison.gd" id="1_6823q"]
+
+[node name="Poison" type="Timer" unique_id=702613632]
+autostart = true
+script = ExtResource("1_6823q")
+
+[connection signal="timeout" from="." to="." method="_on_timeout"]

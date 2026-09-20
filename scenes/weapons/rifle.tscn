@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://cdnicwpnpehv2"]
+
+[ext_resource type="Script" uid="uid://bekwo70mc6wu2" path="res://scenes/weapons/gun.gd" id="1_pqxi0"]
+[ext_resource type="Texture2D" uid="uid://dt5ndk44yrkqa" path="res://assets/sprites/weapons/flash.svg" id="2_s04ql"]
+[ext_resource type="Texture2D" uid="uid://ccg6phnshdng6" path="res://assets/sprites/weapons/rifle/barrel.svg" id="3_s04ql"]
+[ext_resource type="Texture2D" uid="uid://ckrgw48r2tu6l" path="res://assets/sprites/weapons/rifle/handle.svg" id="4_yjk07"]
+[ext_resource type="Texture2D" uid="uid://d3bn2vvosrxvj" path="res://assets/sprites/weapons/rifle/prime.svg" id="5_k631g"]
+[ext_resource type="PackedScene" uid="uid://ck1kamdanlvg1" path="res://scenes/projectile_spawner.tscn" id="5_qn60d"]
+[ext_resource type="AudioStream" uid="uid://bjle3biuwegps" path="res://assets/sounds/rifle-fire.wav" id="7_yjk07"]
+
+[sub_resource type="Animation" id="Animation_red3f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Prime:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Flash:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flash:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_61dc8"]
+resource_name = "fire"
+length = 2.5000000000000004
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Prime:offset")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.8333335, 2.0333333, 2.4333334),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-8, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Flash:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.1, 0.1), Vector2(1, 1), Vector2(0.1, 0.1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Flash:visible")
+tracks/2/interp = 0
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c5u5x"]
+_data = {
+&"RESET": SubResource("Animation_red3f"),
+&"fire": SubResource("Animation_61dc8")
+}
+
+[node name="Rifle" type="Node2D" unique_id=1898433303]
+script = ExtResource("1_pqxi0")
+equip_animation = "character_animations/equip-gun"
+firerate_multiplier = 1
+barrel_length = 64
+
+[node name="Flash" type="Sprite2D" parent="." unique_id=331209413]
+visible = false
+position = Vector2(104, 0)
+texture = ExtResource("2_s04ql")
+
+[node name="Barrel" type="Sprite2D" parent="." unique_id=1644067989]
+position = Vector2(44, 0)
+texture = ExtResource("3_s04ql")
+
+[node name="Handle" type="Sprite2D" parent="." unique_id=892548184]
+position = Vector2(-28, 0)
+texture = ExtResource("4_yjk07")
+
+[node name="Prime" type="Sprite2D" parent="." unique_id=1356260697]
+position = Vector2(-12, 16)
+texture = ExtResource("5_k631g")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1574400075]
+libraries/ = SubResource("AnimationLibrary_c5u5x")
+
+[node name="ProjectileSpawner" parent="." unique_id=2099044993 instance=ExtResource("5_qn60d")]
+sound = ExtResource("7_yjk07")
+projectile_speed = 3000
+projectile_pierce = 2
+projectile_damage = 50
+projectile_knockback = 50
+sprite = "high-speed-bullet"
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

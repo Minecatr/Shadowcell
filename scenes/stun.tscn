@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dk845e00he3xr"]
+
+[ext_resource type="Script" uid="uid://cpseveygjrqni" path="res://scenes/stun.gd" id="1_pyhws"]
+[ext_resource type="SpriteFrames" uid="uid://6o120uwya0lh" path="res://assets/stun.tres" id="2_4wga2"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4wga2"]
+properties/0/path = NodePath(".:visible")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Stun" type="AnimatedSprite2D" unique_id=1631981921]
+sprite_frames = ExtResource("2_4wga2")
+autoplay = "default"
+frame_progress = 0.2120934
+script = ExtResource("1_pyhws")
+
+[node name="Timer" type="Timer" parent="." unique_id=946016537]
+one_shot = true
+autostart = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=372918593]
+replication_config = SubResource("SceneReplicationConfig_4wga2")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
