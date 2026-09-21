@@ -3,7 +3,7 @@ extends Node2D
 @export var weapon_hit_group : String = 'Enemy'
 @export var weapon_damage : int = 3
 @export var weapon_knockback : int = 0
-var armor_pierce : bool = false
+var armor_pierce := 0.0
 
 
 @export var blacklisted_skills : Array[String] = ['Firerate','Multishot','Pierce','Seeking','Ricochet','Velocity','Shattering']
@@ -28,7 +28,7 @@ func _ready() -> void:
 
 func use(speed):
 	hit = []
-	scale = Vector2.ONE*(1+(float(user.skills['Size'])*0.5) if user.has_skills else 1.0)
+	scale = Vector2.ONE*(1+(float(user.skills['Size'])*0.25) if user.has_skills else 1.0)
 	if use_animation:
 		if user.has_skills and user.ability == 'Spinjitsu':
 			effects.rpc('spin',5,1)
@@ -49,7 +49,10 @@ func effects(user_animation, speed, user_speed := 0):
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if multiplayer.is_server() and body.is_in_group(weapon_hit_group) and !hit.has(body):
 		hit.append(body)
-		var knockback = weapon_knockback+(user.skills['Knockback']*500 if user.has_skills else 0)
+		var stun = 0+(0.1*user.skills['Stunning'] if user.has_skills else 0)
+		if stun > 0:
+			body.get_node('Stun').stun(stun,armor_pierce)
+		var knockback = weapon_knockback+(user.skills['Knockback']*25 if user.has_skills else 0)
 		if knockback:
 			body.knockback += Vector2(knockback,0).rotated(user.body.rotation) #.rotated(rotation)
 		body.get_node('HealthBar').change_health(-weapon_damage*((1+user.skills['Damage']+(1 if user.ability == 'Deadly' else 0)) if user.has_skills else 1),armor_pierce)

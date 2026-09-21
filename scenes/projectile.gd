@@ -9,10 +9,10 @@ var damage : int = 3
 var pierce : int = 0
 var drag : float = 0.99
 var hit_group : String = 'Player'
-var armor_pierce : bool = false
+var armor_pierce : float = 0.0
 var pierced : Array = []
 var knockback : int = 0
-var stun := 0
+var stun := 0.0
 @export var rotation_speed : float = 0
 
 @export var sound : AudioStreamWAV = preload("res://assets/sounds/bounce.wav")
@@ -23,6 +23,7 @@ func _ready() -> void:
 	#trail.width = scale.x * 10
 	target_position.x = sprite_node.texture.get_width()/2
 	sprite_node.position.x = target_position.x/2
+	armor_pierce = clamp(pierce/10.0,0.0,1.0)
 	#trail.position.x = target_position.x/2
 
 func _physics_process(delta: float) -> void:
@@ -37,18 +38,13 @@ func _physics_process(delta: float) -> void:
 				if collider.is_in_group(hit_group):
 					collider.get_node('HealthBar').change_health(-damage,armor_pierce)
 					if stun > 0:
-						var collider_stun = collider.get_node('Stun')
-						var collider_stun_timer = collider_stun.get_node('Timer')
-						if collider_stun_timer.time_left < stun: collider_stun_timer.wait_time = stun
-						collider.stunned = true
-						collider_stun.show()
-						collider_stun_timer.start()
+						collider.get_node('Stun').stun(stun,armor_pierce)
 					if knockback:
 						collider.knockback += Vector2(-knockback,0).rotated(get_collision_normal().angle())
 				if pierce > 0 and collider.is_in_group('Object'):
 					pierce -= 1
 					pierced.append(collider)
-			if bounces > 0 and get_collision_normal() != Vector2.ZERO:
+			if bounces > 0 and (pierce <= 0 or collider.is_in_group('Map')) and get_collision_normal() != Vector2.ZERO:
 				play_sound.rpc()
 				bounces -= 1
 				#velocity = velocity.bounce(get_collision_normal())

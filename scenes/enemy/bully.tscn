@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c85nwe6p4xran" path="res://assets/sprites/characters/bully-arm.svg" id="3_fclgh"]
 [ext_resource type="PackedScene" uid="uid://dpp1nn7o4ifaw" path="res://scenes/weapons/sai.tscn" id="4_b0x5t"]
 [ext_resource type="PackedScene" uid="uid://drw5d8axmoyh8" path="res://scenes/health_bar.tscn" id="5_3ym30"]
-[ext_resource type="AnimationLibrary" uid="uid://bnysoijjrif2g" path="res://character_animations.res" id="6_3fmr1"]
+[ext_resource type="AnimationLibrary" uid="uid://bd5e47u21fnlo" path="res://character_animations.res" id="6_3fmr1"]
 [ext_resource type="PackedScene" uid="uid://dk845e00he3xr" path="res://scenes/stun.tscn" id="7_fclgh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ra3w"]

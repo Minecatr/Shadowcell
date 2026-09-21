@@ -3,8 +3,9 @@
 [ext_resource type="Script" uid="uid://cdnsxy6l56giw" path="res://scenes/player.gd" id="1_dqkch"]
 [ext_resource type="Texture2D" uid="uid://dm6f0lmr5bhyo" path="res://assets/sprites/characters/shadow-body.svg" id="2_qlg0r"]
 [ext_resource type="Texture2D" uid="uid://u4nl5ixh87i5" path="res://assets/sprites/characters/shadow-arm.svg" id="3_tuyoq"]
-[ext_resource type="AnimationLibrary" uid="uid://bnysoijjrif2g" path="res://character_animations.res" id="4_tuyoq"]
 [ext_resource type="PackedScene" uid="uid://drw5d8axmoyh8" path="res://scenes/health_bar.tscn" id="5_qlg0r"]
+[ext_resource type="AnimationLibrary" uid="uid://bd5e47u21fnlo" path="res://character_animations.res" id="5_smehm"]
+[ext_resource type="AudioStream" uid="uid://bfawa4m8lu0oq" path="res://assets/sounds/player-hit.wav" id="6_smehm"]
 [ext_resource type="Texture2D" uid="uid://d0xasr7hnpfqp" path="res://assets/ui/arrow.svg" id="6_tuyoq"]
 [ext_resource type="PackedScene" uid="uid://dk845e00he3xr" path="res://scenes/stun.tscn" id="7_fjrip"]
 
@@ -24,6 +25,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Body/Arms/RightArm/Hand:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_smehm"]
@@ -102,14 +115,13 @@ texture = ExtResource("3_tuyoq")
 
 [node name="Hand" type="Node2D" parent="Body/Arms/RightArm" unique_id=1395922814]
 position = Vector2(51.6, 0.232)
-rotation = -1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1409970332]
 shape = SubResource("CircleShape2D_tuyoq")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1666028259]
 libraries/ = SubResource("AnimationLibrary_smehm")
-libraries/character_animations = ExtResource("4_tuyoq")
+libraries/character_animations = ExtResource("5_smehm")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=493972702]
 enabled = false
@@ -128,6 +140,7 @@ replication_config = SubResource("SceneReplicationConfig_dqkch")
 
 [node name="HealthBar" parent="." unique_id=566390955 instance=ExtResource("5_qlg0r")]
 type = "Player"
+hit_sound = ExtResource("6_smehm")
 
 [node name="PickupRange" type="Area2D" parent="." unique_id=1266677799]
 collision_layer = 8

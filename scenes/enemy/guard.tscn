@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://u4nl5ixh87i5" path="res://assets/sprites/characters/shadow-arm.svg" id="3_0yii2"]
 [ext_resource type="PackedScene" uid="uid://jh07i60fkrkc" path="res://scenes/weapons/tonfa.tscn" id="4_0dayd"]
 [ext_resource type="PackedScene" uid="uid://drw5d8axmoyh8" path="res://scenes/health_bar.tscn" id="5_nvs5f"]
-[ext_resource type="AnimationLibrary" uid="uid://bnysoijjrif2g" path="res://character_animations.res" id="6_uu32o"]
+[ext_resource type="AnimationLibrary" uid="uid://bd5e47u21fnlo" path="res://character_animations.res" id="6_uu32o"]
 [ext_resource type="PackedScene" uid="uid://dk845e00he3xr" path="res://scenes/stun.tscn" id="7_0yii2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ra3w"]

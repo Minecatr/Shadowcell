@@ -96,6 +96,7 @@ _data = {
 [node name="Rifle" type="Node2D" unique_id=1898433303]
 script = ExtResource("1_pqxi0")
 equip_animation = "character_animations/equip-gun"
+blacklisted_skills = Array[String](["Swingspeed", "Size"])
 firerate_multiplier = 1
 barrel_length = 64
 

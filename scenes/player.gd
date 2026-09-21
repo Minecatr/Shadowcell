@@ -17,7 +17,7 @@ var target : Vector2
 
 @onready var root := get_tree().root
 @onready var world := root.get_node('world')
-@onready var camera := $Camera2D
+#@onready var camera := $Camera2D
 @onready var weapon : Node
 @onready var hand := $Body/Arms/RightArm/Hand
 @onready var body := $Body
@@ -54,7 +54,7 @@ const skillmap := {
 	'Stunning' :   {'Ability':'',          'Group':3},
 	'Knockback' :  {'Ability':'',          'Group':3},
 	'Velocity' :   {'Ability':'',          'Group':0},
-	'Seeking' :    {'Ability':'',          'Group':0}
+	#'Seeking' :    {'Ability':'',          'Group':0}
 }
 
 const special_abilities := [
@@ -68,7 +68,8 @@ const special_abilities := [
 	'Criticals',
 	'Freezing',
 	'Laser Beam',
-	'Explosive'
+	'Explosive',
+	'Seeking'
 ]
 
 const firerate_effectiveness := 0.5
@@ -110,7 +111,7 @@ func _ready() -> void:
 	# CLIENT
 	if is_client:
 		z_index = 1
-		camera.enabled = true
+		#camera.enabled = true
 	
 	# SERVER
 	if is_server:
@@ -125,7 +126,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	# SERVER
 	if Input.is_action_just_pressed("cheat"):
-		level_complete(skill_selections+1)
+		level_complete(skill_selections+10)
 		
 	if using and can_use and not dead and not stunned:
 		weapon.use(firerate)
@@ -189,7 +190,7 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.lerp(Vector2.ZERO, friction)
 	if level_position:
 		if (level_position-position).length() > 32:
-			can_use = false
+			$AnimationPlayer.pause()
 			velocity = (level_position-position)*4
 		else:
 			level_position = Vector2.ZERO

@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://fk0srx6ntxtf"]
+
+[ext_resource type="Script" uid="uid://euliuwq3fvat" path="res://scenes/weapons/kamikaze.gd" id="1_136hf"]
+[ext_resource type="Texture2D" uid="uid://ckfk0vcnvbyrj" path="res://assets/sprites/weapons/bomb.svg" id="2_c8y86"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4kl6c"]
+properties/0/path = NodePath(".:scale")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="Kamikaze" type="Node2D" unique_id=1093061601]
+script = ExtResource("1_136hf")
+
+[node name="Weapon" type="Sprite2D" parent="." unique_id=652247885]
+rotation = 3.1415927
+texture = ExtResource("2_c8y86")
+flip_v = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1916484832]
+replication_config = SubResource("SceneReplicationConfig_4kl6c")

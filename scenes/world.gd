@@ -29,6 +29,7 @@ var pause := false
 
 var level
 var level_position := Vector2.ZERO
+@export var camera_anchor := Vector2.ZERO
 var enemies = 0
 #@onready var upnp_toggle = $CanvasLayer/MainMenu/VBoxContainer/UpnpToggle
 #@onready var port_entry = $CanvasLayer/MainMenu/VBoxContainer/Server/PortEntry
@@ -38,9 +39,13 @@ var enet_peer = ENetMultiplayerPeer.new()
 var reparent_queue : Array
 var players : Array
 var unready_players : Array
+@onready var camera := $Camera2D
 
 func _ready() -> void:
 	main_menu.visible = true
+
+func _process(delta: float) -> void:
+	camera.position = lerp(camera.position, camera_anchor, 4*delta)
 
 func _unhandled_input(_event):
 	#if Input.is_action_just_pressed("pause") and settings:
@@ -154,18 +159,19 @@ func update_money_count(new_money):
 
 func start_level(door):
 	level = door
+	var anchor = level.get_node('CameraAnchor')
+	if anchor: camera_anchor=anchor.global_position
 	level_position=level.position+Vector2(128,0).rotated(level.rotation)
 	emit_signal('next_level')
 
 func activate_level():
 	level.close()
 	for player in players:
-		player.can_use = true
+		player.get_node('AnimationPlayer').play()
 	emit_signal('level_activated')
 
 func change_enemies(amount):
 	enemies += amount
-	print(enemies)
 	if enemies <= 0:
 		emit_signal('level_up',level.win_upgrades)
 
@@ -219,6 +225,7 @@ func _on_disconnect_pressed() -> void:
 
 func _on_restart_pressed() -> void:
 	level_position = Vector2.ZERO
+	camera_anchor = Vector2.ZERO
 	for entity in entities.get_children():
 		entity.queue_free()
 	players.clear()

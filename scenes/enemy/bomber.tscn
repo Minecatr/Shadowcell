@@ -1,0 +1,86 @@
+[gd_scene format=3 uid="uid://cb1gle7id24ap"]
+
+[ext_resource type="Script" uid="uid://bk2ue7lmw5s8n" path="res://scenes/enemy.gd" id="1_8g8go"]
+[ext_resource type="Texture2D" uid="uid://dc1vri0i5xfm1" path="res://assets/sprites/characters/bomber-body.svg" id="2_8g8go"]
+[ext_resource type="Texture2D" uid="uid://u4nl5ixh87i5" path="res://assets/sprites/characters/shadow-arm.svg" id="3_tr4jf"]
+[ext_resource type="PackedScene" uid="uid://fk0srx6ntxtf" path="res://scenes/weapons/kamikaze.tscn" id="4_1jvkk"]
+[ext_resource type="PackedScene" uid="uid://drw5d8axmoyh8" path="res://scenes/health_bar.tscn" id="5_gosbw"]
+[ext_resource type="AnimationLibrary" uid="uid://bd5e47u21fnlo" path="res://character_animations.res" id="6_wcotf"]
+[ext_resource type="PackedScene" uid="uid://dk845e00he3xr" path="res://scenes/stun.tscn" id="7_n3ofk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ra3w"]
+radius = 44.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_dh8qf"]
+properties/0/path = NodePath("..:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("..:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("../Body:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="enemy" type="CharacterBody2D" unique_id=213968785 groups=["Enemy", "Object"]]
+scale = Vector2(0.5, 0.5)
+collision_mask = 3
+motion_mode = 1
+wall_min_slide_angle = 0.0
+script = ExtResource("1_8g8go")
+speed = 20000
+
+[node name="Body" type="Sprite2D" parent="." unique_id=1484424468]
+texture = ExtResource("2_8g8go")
+
+[node name="Arms" type="Node2D" parent="Body" unique_id=1670007374]
+show_behind_parent = true
+
+[node name="LeftArm" type="Node2D" parent="Body/Arms" unique_id=351144944]
+position = Vector2(19.2, -25.6)
+rotation = 0.523599
+
+[node name="Arm" type="Sprite2D" parent="Body/Arms/LeftArm" unique_id=532849991]
+position = Vector2(24, 0)
+texture = ExtResource("3_tr4jf")
+
+[node name="RightArm" type="Node2D" parent="Body/Arms" unique_id=1943575992]
+position = Vector2(19.2, 25.6)
+rotation = -0.523599
+
+[node name="Arm" type="Sprite2D" parent="Body/Arms/RightArm" unique_id=603962197]
+position = Vector2(24, 0)
+texture = ExtResource("3_tr4jf")
+
+[node name="Hand" type="Node2D" parent="Body/Arms/RightArm" unique_id=1420319942]
+position = Vector2(51.6, 0.232)
+rotation = 0.523599
+
+[node name="Kamikaze" parent="Body/Arms/RightArm/Hand" unique_id=1093061601 instance=ExtResource("4_1jvkk")]
+weapon_hit_group = "Player"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1521031619]
+shape = SubResource("CircleShape2D_4ra3w")
+
+[node name="HealthBar" parent="." unique_id=774246212 instance=ExtResource("5_gosbw")]
+max_health = 40
+kill_coins_min = 0
+
+[node name="Timer" type="Timer" parent="." unique_id=1929224366]
+
+[node name="AttackCooldown" type="Timer" parent="." unique_id=892899305]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=188731459]
+libraries/character_animations = ExtResource("6_wcotf")
+
+[node name="Stun" parent="." unique_id=1631981921 instance=ExtResource("7_n3ofk")]
+visible = false
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1906409598]
+root_path = NodePath("../HealthBar")
+replication_config = SubResource("SceneReplicationConfig_dh8qf")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

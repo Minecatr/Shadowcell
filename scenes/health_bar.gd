@@ -22,6 +22,9 @@ var coin := preload('res://scenes/coin.tscn')
 var dying = false
 
 @export var dodge_sound : AudioStreamWAV = preload("res://assets/sounds/dodge.wav")
+@export var armor_sound : AudioStreamWAV = preload("res://assets/sounds/armor-hit.wav")
+@export var hit_sound : AudioStreamWAV = preload("res://assets/sounds/enemy-hit.wav")
+
 var sound_node : PackedScene = preload("res://scenes/sound.tscn")
 
 # SERVER
@@ -46,10 +49,20 @@ func set_health(new_health):
 		show()
 		update_healthbar_value()
 
-func change_health(amount, _pierce_armor:=false):
+func change_health(amount, pierce_armor:=0.0):
 	if dodge_chance > 0 and amount < 0 and randf() < dodge_chance: 
-		play_sound.rpc()
+		play_sound.rpc(dodge_sound)
 		return
+	if armor > 0:
+		armor -= 1
+		if pierce_armor > 0:
+			set_health(health+amount*pierce_armor)
+		play_sound.rpc(armor_sound)
+		if armor <= 0:
+			parent.remove_armor.rpc()
+		return
+	if amount < 0:
+		play_sound(hit_sound)
 	set_health(health+amount)
 
 func change_max_health(amount):
@@ -90,8 +103,8 @@ func revive(chunk):
 	parent.get_node('Body/Arms').show()
 
 @rpc("authority","call_local")
-func play_sound():
+func play_sound(sound):
 	var sound_instance : AudioStreamPlayer2D= sound_node.instantiate()
-	sound_instance.stream = dodge_sound
+	sound_instance.stream = sound
 	sound_instance.position = parent.global_position
 	entities.add_child(sound_instance)

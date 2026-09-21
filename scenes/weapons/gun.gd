@@ -3,9 +3,9 @@ extends Node2D
 @export var equip_animation : String = 'equip1'
 @export var use_animation : String = ''
 @export var blacklisted_skills : Array[String] = ['Swingspeed','Ricochet']
-@export var firerate_multiplier : int = 2
+@export var firerate_multiplier : float = 2
 @export var barrel_length := 25
-@export var hit_group := 'Enemy'
+@export var weapon_hit_group := 'Enemy'
 @export var double_animations := false
 
 @onready var user := get_parent().get_parent().get_parent().get_parent().get_parent()
@@ -14,7 +14,7 @@ extends Node2D
 @onready var projectile_spawner := $ProjectileSpawner
 
 func _ready() -> void:
-	projectile_spawner.projectile_hit_group = hit_group
+	projectile_spawner.projectile_hit_group = weapon_hit_group
 	if equip_animation:
 		user_animation_player.play(equip_animation)
 

@@ -1,12 +1,8 @@
 extends CharacterBody2D
 
-const TILE_SIZE = 64
-const ARRIVE_DISTANCE = 64.0
 const MASS = 1.0
 
 @export var speed := 10000
-@export var damage := 10
-@export var armor_pierce := false
 @export var target_range := 64
 @onready var is_server := multiplayer.is_server()
 @onready var root := get_tree().root
@@ -111,5 +107,10 @@ func activate():
 	set_target()
 	nav_timer.start()
 
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	can_use = true
+
+@rpc('authority','call_local')
+func remove_armor():
+	if body.get_class() == 'AnimatedSprite2D':
+		body.frame = 1

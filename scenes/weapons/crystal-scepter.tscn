@@ -17,6 +17,7 @@ _data = {
 script = ExtResource("1_05cv0")
 equip_animation = "character_animations/equip-polearm"
 use_animation = "character_animations/stab"
+blacklisted_skills = Array[String](["Swingspeed", "Size"])
 firerate_multiplier = 1
 barrel_length = 50
 
@@ -26,7 +27,6 @@ libraries/ = SubResource("AnimationLibrary_c5u5x")
 [node name="ProjectileSpawner" parent="." unique_id=2099044993 instance=ExtResource("5_wmlfb")]
 sound = ExtResource("3_wa4rb")
 projectile_speed = 250
-projectile_spread = 2.0
 projectile_bounces = 1
 projectile_drag = 1.05
 projectile_damage = 20

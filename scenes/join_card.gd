@@ -17,7 +17,8 @@ var weapons := [
 	'sai',
 	'crystal-scepter',
 	'bow',
-	'rifle'
+	'rifle',
+	'shotgun'
 ]
 
 var character := 0
