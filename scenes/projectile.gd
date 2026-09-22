@@ -44,7 +44,7 @@ func _physics_process(delta: float) -> void:
 				if pierce > 0 and collider.is_in_group('Object'):
 					pierce -= 1
 					pierced.append(collider)
-			if bounces > 0 and (pierce <= 0 or collider.is_in_group('Map')) and get_collision_normal() != Vector2.ZERO:
+			if bounces > 0 and (pierce <= 0 or not collider.is_in_group(hit_group)) and get_collision_normal() != Vector2.ZERO:
 				play_sound.rpc()
 				bounces -= 1
 				#velocity = velocity.bounce(get_collision_normal())

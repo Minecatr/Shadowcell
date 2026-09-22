@@ -125,7 +125,6 @@ sound = ExtResource("7_yjk07")
 projectile_speed = 3000
 projectile_pierce = 2
 projectile_damage = 50
-projectile_knockback = 50
 sprite = "high-speed-bullet"
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

@@ -3,7 +3,7 @@ extends StaticBody2D
 signal redstone
 
 @onready var animation_player = $AnimationPlayer
-
+@onready var collision_shape = $CollisionShape2D	
 #@onready var is_server := multiplayer.is_server()
 @onready var root := get_tree().root
 @onready var world := root.get_node('world')
@@ -37,6 +37,7 @@ func _on_entry_body_exited(body: Node2D) -> void:
 
 @rpc("authority","call_local")
 func open_animation():
+	collision_shape.set_deferred("one_way_collision", true)
 	animation_player.play("open")
 
 func close():
@@ -44,4 +45,5 @@ func close():
 
 @rpc("authority","call_local")
 func close_animation():
+	collision_shape.set_deferred("one_way_collision", false)
 	animation_player.play_backwards("open")

@@ -152,7 +152,7 @@ projectile_count = 6
 projectile_spread = 2.0
 projectile_spacing = 0.0
 projectile_drag = 0.98
-projectile_damage = 10
+projectile_damage = 15
 projectile_knockback = 10
 sprite = "buckshot"
 

@@ -166,8 +166,10 @@ func start_level(door):
 
 func activate_level():
 	level.close()
-	for player in players:
-		player.get_node('AnimationPlayer').play()
+	#for player in players:
+		#player.can_use = true
+	#	var animation_player : AnimationPlayer = player.get_node('AnimationPlayer')
+	#	if animation_player.is_animation_active() and not animation_player.is_playing(): animation_player.play()
 	emit_signal('level_activated')
 
 func change_enemies(amount):

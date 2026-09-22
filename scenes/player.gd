@@ -190,7 +190,8 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.lerp(Vector2.ZERO, friction)
 	if level_position:
 		if (level_position-position).length() > 32:
-			$AnimationPlayer.pause()
+			#$AnimationPlayer.stop()
+			#can_use=false
 			velocity = (level_position-position)*4
 		else:
 			level_position = Vector2.ZERO
@@ -241,7 +242,7 @@ func upgrade(button: int):
 				healthbar.change_max_health(50)
 				healthbar.change_health(50,false)
 			if skill == 'Dodge':
-				healthbar.dodge_chance += 0.05
+				healthbar.dodge_chance += 0.08
 			
 			skill_options.clear()
 			setup_skills()

@@ -22,4 +22,11 @@
 <rect x="52" y="23" width="3" height="8" fill="#717171"/>
 <rect x="44" y="52" width="8" height="3" fill="#717171"/>
 <rect x="52" y="39" width="3" height="8" fill="#717171"/>
+<rect y="48" width="16" height="16" fill="#4D4D4D"/>
+<rect x="4" y="49" width="8" height="3" fill="#8D8D8D"/>
+<rect x="4" y="49" width="7" height="3" transform="rotate(90 4 49)" fill="#717171"/>
+<rect x="4" y="56" width="7" height="3" transform="rotate(90 4 56)" fill="#8D8D8D"/>
+<rect x="15" y="49" width="7" height="3" transform="rotate(90 15 49)" fill="#717171"/>
+<rect x="15" y="56" width="7" height="3" transform="rotate(90 15 56)" fill="#8D8D8D"/>
+<rect x="4" y="60" width="8" height="3" fill="#717171"/>
 </svg>
