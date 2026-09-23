@@ -89,6 +89,8 @@ var skills := {}
 const has_skills := true
 var skill_selections := 0
 var ability := ''
+var mouse_aim := true
+@onready var aim_indicator = $AimIndicator
 
 const attack_animations := [
 	'character_animations/spin',
@@ -134,6 +136,9 @@ func _process(_delta: float) -> void:
 		
 	# CLIENT
 	if is_client:
+		if Input.is_action_just_pressed('option1'): world.press(0)
+		if Input.is_action_just_pressed('option2'): world.press(1)
+		if Input.is_action_just_pressed('option3'): world.press(2)
 		if target and position.distance_to(target) > 50:
 			target_indicator.visible = true
 			target_indicator.offset.x = clamp(position.distance_to(target)/2,100,500)
@@ -145,7 +150,16 @@ func _process(_delta: float) -> void:
 			world.toggle_pause()
 		if not pause:
 			# Mouse Aim
-			body.look_at(get_global_mouse_position())
+			var aim_vector = Input.get_vector('look_left','look_right','look_up','look_down')
+			if aim_vector:
+				body.rotation =aim_vector.angle()
+				aim_indicator.position = 512*aim_vector
+				aim_indicator.show()
+				mouse_aim = false
+			elif mouse_aim:
+				body.look_at(get_global_mouse_position())
+			else:
+				aim_indicator.hide()
 			aim.rpc(body.rotation)
 			
 			# Movement
@@ -153,9 +167,12 @@ func _process(_delta: float) -> void:
 			#if input_dir != current_input_dir:
 			move.rpc_id(1,current_input_dir)
 
-func _unhandled_input(_event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if is_client and not pause:
 		# Use Weapon
+		if event is InputEventMouseMotion:
+			mouse_aim = true
+			aim_indicator.hide()
 		if Input.is_action_just_pressed('use'):
 			use.rpc_id(1,true)
 		if Input.is_action_just_released('use'):

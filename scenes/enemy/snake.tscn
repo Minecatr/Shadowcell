@@ -1,94 +1,187 @@
 [gd_scene format=3 uid="uid://docnnyfcyybvp"]
 
 [ext_resource type="Texture2D" uid="uid://d2mjfk0vs05tf" path="res://assets/sprites/characters/snake-tail.svg" id="1_fn1oa"]
+[ext_resource type="Script" uid="uid://b1iwbrasuyqsk" path="res://scenes/enemy/snake.gd" id="1_gswgg"]
 [ext_resource type="Texture2D" uid="uid://cgxr8ttd6n5g8" path="res://assets/sprites/characters/snake-body.svg" id="2_gswgg"]
 [ext_resource type="Texture2D" uid="uid://5lfmjeaubnew" path="res://assets/sprites/characters/snake-head.svg" id="3_uuj25"]
 
 [sub_resource type="Curve2D" id="Curve2D_0eymr"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, -95.16749, 0.9330146, 95.16749, -0.9330146, 192, -128, -46.650726, -14.419316, 46.650726, 14.419316, 384, 0, 16.963903, -111.11356, -16.963903, 111.11356, 512, 128, 0, 0, 0, 0, 384, 256, 0, 0, 0, 0, 256, 256)
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0)
 }
-point_count = 6
+point_count = 1
 
 [node name="Path2D" type="Path2D" unique_id=1291902041]
 scale = Vector2(0.5, 0.5)
 curve = SubResource("Curve2D_0eymr")
+script = ExtResource("1_gswgg")
 
-[node name="PathFollow2D" type="PathFollow2D" parent="." unique_id=1156567297]
-rotation = -0.9196222
+[node name="PathFollow2D19" type="PathFollow2D" parent="." unique_id=1335793540]
+rotation = -3.1415925
+progress = 1440.0
+loop = false
 
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D" unique_id=1103788784]
+[node name="SnakeBody2" type="Sprite2D" parent="PathFollow2D19" unique_id=534135942]
 texture = ExtResource("1_fn1oa")
-offset = Vector2(-16, 0)
+flip_h = true
 
-[node name="PathFollow2D2" type="PathFollow2D" parent="." unique_id=690708714]
-position = Vector2(26.09427, -30.283657)
-rotation = -0.8192319
-progress = 40.0
+[node name="PathFollow2D18" type="PathFollow2D" parent="." unique_id=49283937]
+rotation = -3.1415925
+progress = 1360.0
+loop = false
 
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D2" unique_id=1453837432]
+[node name="SnakeBody2" type="Sprite2D" parent="PathFollow2D18" unique_id=1522525534]
 texture = ExtResource("2_gswgg")
-offset = Vector2(24, 0)
+flip_h = true
 
-[node name="PathFollow2D3" type="PathFollow2D" parent="." unique_id=1259534649]
-position = Vector2(85.24918, -84.0084)
-rotation = -0.6427769
-progress = 120.0
+[node name="PathFollow2D17" type="PathFollow2D" parent="." unique_id=1876770613]
+rotation = -3.1415925
+progress = 1280.0
+loop = false
 
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D3" unique_id=935932828]
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D17" unique_id=147540285]
 texture = ExtResource("2_gswgg")
-offset = Vector2(24, 0)
+flip_h = true
 
-[node name="PathFollow2D4" type="PathFollow2D" parent="." unique_id=782335990]
-position = Vector2(155.29048, -121.88307)
-rotation = -0.30183965
-progress = 200.0
+[node name="PathFollow2D16" type="PathFollow2D" parent="." unique_id=1665854489]
+rotation = -3.1415925
+progress = 1200.0
+loop = false
 
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D4" unique_id=1964666917]
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D16" unique_id=758550209]
 texture = ExtResource("2_gswgg")
-offset = Vector2(24, 0)
+flip_h = true
 
-[node name="PathFollow2D5" type="PathFollow2D" parent="." unique_id=55280841]
-position = Vector2(233.78369, -120.69057)
-rotation = 0.35153723
-progress = 280.0
+[node name="PathFollow2D15" type="PathFollow2D" parent="." unique_id=1649755070]
+rotation = -3.1415925
+progress = 1120.0
+loop = false
 
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D5" unique_id=826739030]
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D15" unique_id=1421758615]
 texture = ExtResource("2_gswgg")
-offset = Vector2(24, 0)
+flip_h = true
 
-[node name="PathFollow2D6" type="PathFollow2D" parent="." unique_id=1025960678]
-position = Vector2(299.59915, -76.22615)
-rotation = 0.76457304
-progress = 360.0
+[node name="PathFollow2D14" type="PathFollow2D" parent="." unique_id=783204966]
+rotation = -3.1415925
+progress = 1040.0
+loop = false
 
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D6" unique_id=1958443897]
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D14" unique_id=1031739604]
 texture = ExtResource("2_gswgg")
-offset = Vector2(24, 0)
+flip_h = true
 
-[node name="PathFollow2D7" type="PathFollow2D" parent="." unique_id=1061574739]
-position = Vector2(355.34183, -18.85795)
-rotation = 0.74397707
-progress = 440.0
+[node name="PathFollow2D13" type="PathFollow2D" parent="." unique_id=49614579]
+rotation = -3.1415925
+progress = 960.0
+loop = false
 
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D7" unique_id=1966073456]
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D13" unique_id=682298033]
 texture = ExtResource("2_gswgg")
-offset = Vector2(24, 0)
+flip_h = true
+
+[node name="PathFollow2D12" type="PathFollow2D" parent="." unique_id=1646976515]
+rotation = -3.1415925
+progress = 880.0
+loop = false
+
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D12" unique_id=427180744]
+texture = ExtResource("2_gswgg")
+flip_h = true
+
+[node name="PathFollow2D11" type="PathFollow2D" parent="." unique_id=1357859185]
+rotation = -3.1415925
+progress = 800.0
+loop = false
+
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D11" unique_id=1674994182]
+texture = ExtResource("2_gswgg")
+flip_h = true
+
+[node name="PathFollow2D10" type="PathFollow2D" parent="." unique_id=187073979]
+rotation = -3.1415925
+progress = 720.0
+loop = false
+
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D10" unique_id=1689963110]
+texture = ExtResource("2_gswgg")
+flip_h = true
+
+[node name="PathFollow2D9" type="PathFollow2D" parent="." unique_id=577292081]
+rotation = -3.1415925
+progress = 640.0
+loop = false
+
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D9" unique_id=595191572]
+texture = ExtResource("2_gswgg")
+flip_h = true
 
 [node name="PathFollow2D8" type="PathFollow2D" parent="." unique_id=1763443952]
-position = Vector2(428.0664, 10.978488)
-rotation = 0.25752464
-progress = 520.0
+rotation = -3.1415925
+progress = 560.0
+loop = false
 
 [node name="SnakeBody" type="Sprite2D" parent="PathFollow2D8" unique_id=1012441791]
 texture = ExtResource("2_gswgg")
-offset = Vector2(24, 0)
+flip_h = true
 
-[node name="PathFollow2D9" type="PathFollow2D" parent="." unique_id=1592927550]
-position = Vector2(496.90793, 48.871506)
-rotation = 0.9040331
-progress = 600.0
+[node name="PathFollow2D7" type="PathFollow2D" parent="." unique_id=1061574739]
+rotation = -3.1415925
+progress = 480.0
+loop = false
 
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D9" unique_id=372391721]
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D7" unique_id=1966073456]
+texture = ExtResource("2_gswgg")
+flip_h = true
+
+[node name="PathFollow2D6" type="PathFollow2D" parent="." unique_id=1025960678]
+rotation = -3.1415925
+progress = 400.0
+loop = false
+
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D6" unique_id=1958443897]
+texture = ExtResource("2_gswgg")
+flip_h = true
+
+[node name="PathFollow2D5" type="PathFollow2D" parent="." unique_id=55280841]
+rotation = -3.1415925
+progress = 320.0
+loop = false
+
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D5" unique_id=826739030]
+texture = ExtResource("2_gswgg")
+flip_h = true
+
+[node name="PathFollow2D4" type="PathFollow2D" parent="." unique_id=782335990]
+rotation = -3.1415925
+progress = 240.0
+loop = false
+
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D4" unique_id=1964666917]
+texture = ExtResource("2_gswgg")
+flip_h = true
+
+[node name="PathFollow2D3" type="PathFollow2D" parent="." unique_id=1259534649]
+rotation = 3.1415927
+progress = 160.0
+loop = false
+
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D3" unique_id=935932828]
+texture = ExtResource("2_gswgg")
+flip_h = true
+
+[node name="PathFollow2D2" type="PathFollow2D" parent="." unique_id=690708714]
+rotation = -3.1415925
+progress = 80.0
+loop = false
+
+[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D2" unique_id=1453837432]
+texture = ExtResource("2_gswgg")
+flip_h = true
+
+[node name="Timer" type="Timer" parent="." unique_id=1499093374]
+autostart = true
+
+[node name="SnakeBody" type="Sprite2D" parent="." unique_id=395774411]
 texture = ExtResource("3_uuj25")
-offset = Vector2(32, 0)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

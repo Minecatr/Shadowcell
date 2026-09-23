@@ -221,7 +221,8 @@ func try_disconnect(peer_id) -> void:
 		get_tree().reload_current_scene()
 
 func _on_disconnect_pressed() -> void:
-	enet_peer.close()
+	if multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+		enet_peer.close()
 	get_tree().reload_current_scene()
 	#get_tree().reload_current_scene()
 

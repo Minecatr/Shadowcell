@@ -14,7 +14,7 @@ signal redstone
 var players_entered := []
 
 func _on_entry_body_entered(body: Node2D) -> void:
-	if multiplayer.is_server():
+	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED or multiplayer.is_server():
 		if open: return
 		if not body.is_in_group('Player'): return
 		if world.enemies > 0: return
@@ -30,7 +30,7 @@ func _on_entry_body_entered(body: Node2D) -> void:
 					wplayer.set_target.rpc_id(wplayer.name.to_int(),global_position)
 
 func _on_entry_body_exited(body: Node2D) -> void:
-	if multiplayer.is_server():
+	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED or multiplayer.is_server():
 		if open: return
 		if not body.is_in_group('Player'): return
 		players_entered.erase(body)

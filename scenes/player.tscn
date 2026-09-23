@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://bfawa4m8lu0oq" path="res://assets/sounds/player-hit.wav" id="6_smehm"]
 [ext_resource type="Texture2D" uid="uid://d0xasr7hnpfqp" path="res://assets/ui/arrow.svg" id="6_tuyoq"]
 [ext_resource type="PackedScene" uid="uid://dk845e00he3xr" path="res://scenes/stun.tscn" id="7_fjrip"]
+[ext_resource type="Texture2D" uid="uid://b46sarypcwla7" path="res://assets/sprites/aim.svg" id="8_ur7pv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tuyoq"]
 radius = 44.0
@@ -90,6 +91,10 @@ scale = Vector2(0.5, 0.5)
 collision_mask = 3
 motion_mode = 1
 script = ExtResource("1_dqkch")
+
+[node name="AimIndicator" type="Sprite2D" parent="." unique_id=346148933]
+visible = false
+texture = ExtResource("8_ur7pv")
 
 [node name="Body" type="Sprite2D" parent="." unique_id=848491391]
 texture = ExtResource("2_qlg0r")
