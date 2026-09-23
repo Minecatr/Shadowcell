@@ -9,7 +9,6 @@ var pause := false
 
 @onready var main_menu = $CanvasLayer/MainMenu
 @onready var hud = $CanvasLayer/HUD
-@onready var game_over_screen = $CanvasLayer/HUD/GameOverScreen
 @onready var character_select = $CanvasLayer/CharacterSelect
 @onready var address_entry = $CanvasLayer/MainMenu/VBoxContainer/Server/AddressEntry
 
@@ -41,11 +40,30 @@ var players : Array
 var unready_players : Array
 @onready var camera := $Camera2D
 
+@onready var host_button: = $CanvasLayer/MainMenu/VBoxContainer/HostButton
+@onready var select: = $CanvasLayer/CharacterSelect/HBoxContainer/Full/MarginContainer/VBoxContainer/Select/SelectButton
+@onready var resume: = $CanvasLayer/PauseMenu/Panel/VBoxContainer/Resume
+
+const follow_speed = 4
+const edge_margin = 128
+
 func _ready() -> void:
+	host_button.grab_focus()
 	main_menu.visible = true
 
 func _process(delta: float) -> void:
-	camera.position = lerp(camera.position, camera_anchor, 4*delta)
+	
+	var desired_pos = lerp(camera.position, camera_anchor, follow_speed*delta)
+	if entities.has_node(str(multiplayer.get_unique_id())):
+		var area = get_viewport().get_visible_rect().size / 2
+		var player = entities.get_node(str(multiplayer.get_unique_id()))
+		var min_x = player.position.x - area.x + edge_margin
+		var max_x = player.position.x + area.x - edge_margin
+		var min_y = player.position.y - area.y + edge_margin
+		var max_y = player.position.y + area.y - edge_margin
+		desired_pos.x = clamp(desired_pos.x, min_x, max_x)
+		desired_pos.y = clamp(desired_pos.y, min_y, max_y)
+	camera.position = desired_pos
 
 func _unhandled_input(_event):
 	#if Input.is_action_just_pressed("pause") and settings:
@@ -60,6 +78,7 @@ func _unhandled_input(_event):
 func _on_host_button_pressed():
 	main_menu.hide()
 	character_select.show()
+	select.grab_focus()
 	
 	enet_peer.create_server(2888)#port_entry.value)
 	multiplayer.multiplayer_peer = enet_peer
@@ -75,6 +94,7 @@ func _on_host_button_pressed():
 func _on_join_button_pressed():
 	main_menu.hide()
 	character_select.show()
+	select.grab_focus()
 	
 	enet_peer.create_client(address_entry.text, 2888)#port_entry.value)
 	multiplayer.multiplayer_peer = enet_peer
@@ -198,7 +218,6 @@ func queue_skills(display_text,skill_selections):
 			#button.show()
 	update_skills_ui(skill_selections)
 	possible_skills_ui.show()
-	
 
 func press(button):
 	possible_skills_ui.hide()
@@ -213,6 +232,7 @@ func _on_resume_pressed() -> void:
 func toggle_pause():
 	pause = not pause
 	pause_menu.visible = pause
+	if pause: resume.grab_focus()
 	entities.get_node_or_null(str(multiplayer.get_unique_id())).pause = pause
 
 func try_disconnect(peer_id) -> void:
@@ -244,10 +264,12 @@ func _on_restart_pressed() -> void:
 	restart_effects.rpc()
 @rpc("authority","call_local")
 func restart_effects():
+	toggle_pause()
 	main_menu.hide()
 	hud.hide()
-	game_over_screen.hide()
+	possible_skills_ui.hide()
 	character_select.show()
+	select.grab_focus()
 		#player.position = level_position
 		#player.healthbar.revive(1.0)
 		#player.skill_selections = 0
@@ -273,7 +295,7 @@ func check_dead():
 	for player in players:
 		if not player.dead: game_over = false
 	if game_over:
-		game_over_screen.show()
+		toggle_pause()
 
 
 #func _on_bullet_factory_2d_body_entered(hit_target_body: Object, multimesh_bullets_instance: MultiMeshBullets2D, _bullet_index: int, bullets_custom_data: Resource, bullet_global_transform: Transform2D) -> void:

@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://ctrw5ibnh1683"]
+
+[ext_resource type="Texture2D" uid="uid://cgxr8ttd6n5g8" path="res://assets/sprites/characters/snake-body.svg" id="1_cv1tb"]
+[ext_resource type="Script" uid="uid://cqtcl5eth7iiq" path="res://scenes/enemy/snake_part.gd" id="2_ofqgt"]
+[ext_resource type="PackedScene" uid="uid://drw5d8axmoyh8" path="res://scenes/health_bar.tscn" id="2_td48u"]
+[ext_resource type="AudioStream" uid="uid://4xnu14dko330" path="res://assets/sounds/armor-hit.wav" id="4_5y7il"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0eymr"]
+radius = 40.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5y7il"]
+properties/0/path = NodePath(".:progress")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="SnakeSegment" type="PathFollow2D" unique_id=1807720556]
+rotation = -3.1415925
+progress = 1440.0
+loop = false
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=637205092]
+z_index = -1
+position = Vector2(0, -2.2737368e-13)
+texture = ExtResource("1_cv1tb")
+flip_h = true
+
+[node name="Hit" type="CharacterBody2D" parent="." unique_id=834070368 groups=["Enemy", "Object"]]
+collision_mask = 0
+script = ExtResource("2_ofqgt")
+
+[node name="HealthBar" parent="Hit" unique_id=423688090 instance=ExtResource("2_td48u")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+max_health = 300
+type = "Snake"
+dodge_chance = 1.0
+kill_coins_max = 0
+dodge_sound = ExtResource("4_5y7il")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hit" unique_id=808026504]
+position = Vector2(9.536744e-07, 9.5367415e-07)
+shape = SubResource("CircleShape2D_0eymr")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=407757668]
+replication_config = SubResource("SceneReplicationConfig_5y7il")

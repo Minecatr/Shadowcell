@@ -14,6 +14,13 @@ noise_type = 0
 noise = SubResource("FastNoiseLite_wu84c")
 color_ramp = SubResource("Gradient_bqqt6")
 
+[sub_resource type="GDScript" id="GDScript_pxsg4"]
+script/source = "extends Button
+
+func _ready() -> void:
+	grab_focus()
+"
+
 [node name="MainMenu" type="Control" unique_id=1922793790]
 layout_mode = 3
 anchors_preset = 15
@@ -23,7 +30,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ekxnf")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=90133291]
+[node name="TextureRect3" type="TextureRect" parent="." unique_id=510950167]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,7 +55,7 @@ stretch_mode = 6
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=86419153]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -75,6 +82,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Host"
+script = SubResource("GDScript_pxsg4")
 
 [node name="Server" type="HBoxContainer" parent="VBoxContainer" unique_id=328378569]
 layout_mode = 2

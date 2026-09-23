@@ -1,9 +1,12 @@
 [gd_scene format=3 uid="uid://docnnyfcyybvp"]
 
-[ext_resource type="Texture2D" uid="uid://d2mjfk0vs05tf" path="res://assets/sprites/characters/snake-tail.svg" id="1_fn1oa"]
 [ext_resource type="Script" uid="uid://b1iwbrasuyqsk" path="res://scenes/enemy/snake.gd" id="1_gswgg"]
-[ext_resource type="Texture2D" uid="uid://cgxr8ttd6n5g8" path="res://assets/sprites/characters/snake-body.svg" id="2_gswgg"]
+[ext_resource type="Script" uid="uid://cqtcl5eth7iiq" path="res://scenes/enemy/snake_part.gd" id="3_0eymr"]
+[ext_resource type="PackedScene" uid="uid://84ivxjvgosf5" path="res://scenes/enemy/targeter.tscn" id="3_gswgg"]
 [ext_resource type="Texture2D" uid="uid://5lfmjeaubnew" path="res://assets/sprites/characters/snake-head.svg" id="3_uuj25"]
+[ext_resource type="PackedScene" uid="uid://drw5d8axmoyh8" path="res://scenes/health_bar.tscn" id="4_gswgg"]
+[ext_resource type="Texture2D" uid="uid://cbdsirjeepoqk" path="res://assets/sprites/characters/snake-tongue.svg" id="5_0eymr"]
+[ext_resource type="AudioStream" uid="uid://4xnu14dko330" path="res://assets/sounds/armor-hit.wav" id="7_uvpse"]
 
 [sub_resource type="Curve2D" id="Curve2D_0eymr"]
 _data = {
@@ -11,177 +14,69 @@ _data = {
 }
 point_count = 1
 
-[node name="Path2D" type="Path2D" unique_id=1291902041]
+[sub_resource type="CircleShape2D" id="CircleShape2D_snmd0"]
+radius = 48.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0eymr"]
+properties/0/path = NodePath("Head:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Head:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:position")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="Snake" type="Path2D" unique_id=1291902041 groups=["Enemy", "Player"]]
 scale = Vector2(0.5, 0.5)
 curve = SubResource("Curve2D_0eymr")
 script = ExtResource("1_gswgg")
+speed = 10000
 
-[node name="PathFollow2D19" type="PathFollow2D" parent="." unique_id=1335793540]
-rotation = -3.1415925
-progress = 1440.0
-loop = false
+[node name="Targeter" parent="." unique_id=2097431864 node_paths=PackedStringArray("attachment") instance=ExtResource("3_gswgg")]
+attachment = NodePath("../Head")
 
-[node name="SnakeBody2" type="Sprite2D" parent="PathFollow2D19" unique_id=534135942]
-texture = ExtResource("1_fn1oa")
-flip_h = true
+[node name="AttackTimer" type="Timer" parent="." unique_id=2004670439]
+one_shot = true
 
-[node name="PathFollow2D18" type="PathFollow2D" parent="." unique_id=49283937]
-rotation = -3.1415925
-progress = 1360.0
-loop = false
+[node name="Head" type="CharacterBody2D" parent="." unique_id=630273662 groups=["Enemy", "Object"]]
+collision_mask = 0
+script = ExtResource("3_0eymr")
 
-[node name="SnakeBody2" type="Sprite2D" parent="PathFollow2D18" unique_id=1522525534]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D17" type="PathFollow2D" parent="." unique_id=1876770613]
-rotation = -3.1415925
-progress = 1280.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D17" unique_id=147540285]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D16" type="PathFollow2D" parent="." unique_id=1665854489]
-rotation = -3.1415925
-progress = 1200.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D16" unique_id=758550209]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D15" type="PathFollow2D" parent="." unique_id=1649755070]
-rotation = -3.1415925
-progress = 1120.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D15" unique_id=1421758615]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D14" type="PathFollow2D" parent="." unique_id=783204966]
-rotation = -3.1415925
-progress = 1040.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D14" unique_id=1031739604]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D13" type="PathFollow2D" parent="." unique_id=49614579]
-rotation = -3.1415925
-progress = 960.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D13" unique_id=682298033]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D12" type="PathFollow2D" parent="." unique_id=1646976515]
-rotation = -3.1415925
-progress = 880.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D12" unique_id=427180744]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D11" type="PathFollow2D" parent="." unique_id=1357859185]
-rotation = -3.1415925
-progress = 800.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D11" unique_id=1674994182]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D10" type="PathFollow2D" parent="." unique_id=187073979]
-rotation = -3.1415925
-progress = 720.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D10" unique_id=1689963110]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D9" type="PathFollow2D" parent="." unique_id=577292081]
-rotation = -3.1415925
-progress = 640.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D9" unique_id=595191572]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D8" type="PathFollow2D" parent="." unique_id=1763443952]
-rotation = -3.1415925
-progress = 560.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D8" unique_id=1012441791]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D7" type="PathFollow2D" parent="." unique_id=1061574739]
-rotation = -3.1415925
-progress = 480.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D7" unique_id=1966073456]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D6" type="PathFollow2D" parent="." unique_id=1025960678]
-rotation = -3.1415925
-progress = 400.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D6" unique_id=1958443897]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D5" type="PathFollow2D" parent="." unique_id=55280841]
-rotation = -3.1415925
-progress = 320.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D5" unique_id=826739030]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D4" type="PathFollow2D" parent="." unique_id=782335990]
-rotation = -3.1415925
-progress = 240.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D4" unique_id=1964666917]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D3" type="PathFollow2D" parent="." unique_id=1259534649]
-rotation = 3.1415927
-progress = 160.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D3" unique_id=935932828]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="PathFollow2D2" type="PathFollow2D" parent="." unique_id=690708714]
-rotation = -3.1415925
-progress = 80.0
-loop = false
-
-[node name="SnakeBody" type="Sprite2D" parent="PathFollow2D2" unique_id=1453837432]
-texture = ExtResource("2_gswgg")
-flip_h = true
-
-[node name="Timer" type="Timer" parent="." unique_id=1499093374]
-autostart = true
-
-[node name="SnakeBody" type="Sprite2D" parent="." unique_id=395774411]
+[node name="SnakeBody" type="Sprite2D" parent="Head" unique_id=395774411]
 texture = ExtResource("3_uuj25")
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[node name="SnakeTongue" type="Sprite2D" parent="Head" unique_id=1518740549]
+visible = false
+position = Vector2(56, 0)
+texture = ExtResource("5_0eymr")
+
+[node name="HealthBar" parent="Head" unique_id=423688090 instance=ExtResource("4_gswgg")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = -5.0
+offset_bottom = 5.0
+grow_horizontal = 2
+grow_vertical = 2
+max_health = 900
+type = "Snake"
+dodge_chance = 100.0
+kill_coins_max = 20
+kill_coins_min = 10
+dodge_sound = ExtResource("7_uvpse")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head" unique_id=1931716867]
+shape = SubResource("CircleShape2D_snmd0")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=1092056994]
+replication_config = SubResource("SceneReplicationConfig_0eymr")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=412223496]
+_spawnable_scenes = PackedStringArray("uid://ctrw5ibnh1683")
+spawn_path = NodePath("..")
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

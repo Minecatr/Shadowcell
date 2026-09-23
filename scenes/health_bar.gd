@@ -6,7 +6,7 @@ extends TextureProgressBar
 @export var dodge_chance := 0.0
 
 @export var kill_coins_max : int = 1
-@export var kill_coins_min : int = 1
+@export var kill_coins_min : int = 0
 
 var kill_coins := 0
 
@@ -92,6 +92,24 @@ func die():
 		parent.modulate = Color(1,1,1,0.5)
 		parent.get_node('Body/Arms').hide()
 		world.check_dead()
+	elif type == 'Snake':
+		dying =true
+		for c in kill_coins:
+			var coin_instance = coin.instantiate()
+			coin_instance.position = global_position
+			entities.call_deferred('add_child',coin_instance,true)
+		if parent.name == 'Head': 
+			world.change_enemies(-1)
+		else:
+			var snake = parent.get_parent().get_parent()
+			snake.alive_segments -= 1
+			snake.segments.remove_at(0)
+			if snake.alive_segments > 0:
+				snake.segments[0].get_node('Hit/HealthBar').dodge_chance = 0.0
+				snake.segments[0].get_node('Sprite').texture = load('res://assets/sprites/characters/snake-tail.svg')
+			else:
+				snake.head.get_node('HealthBar').dodge_chance = 0.0
+		parent.get_parent().queue_free()
 
 func revive(chunk):
 	show()

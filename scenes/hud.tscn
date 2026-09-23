@@ -2,6 +2,9 @@
 
 [ext_resource type="Theme" uid="uid://ccefvftjbaoun" path="res://hud-theme.tres" id="1_5ysmq"]
 [ext_resource type="PackedScene" uid="uid://f7jcagyqbk6o" path="res://scenes/skill_button.tscn" id="2_oo0fn"]
+[ext_resource type="Texture2D" uid="uid://dg1tcpm1xyo52" path="res://assets/prompts/Xbox Series/XboxSeriesX_X.png" id="3_uo2fv"]
+[ext_resource type="Texture2D" uid="uid://cx6e156xxpwv" path="res://assets/prompts/Xbox Series/XboxSeriesX_Y.png" id="4_047uy"]
+[ext_resource type="Texture2D" uid="uid://bpukxdguxi32o" path="res://assets/prompts/Xbox Series/XboxSeriesX_B.png" id="5_5pdws"]
 
 [node name="HUD" type="Control" unique_id=400861186]
 layout_mode = 3
@@ -34,19 +37,28 @@ layout_mode = 2
 text = "Choose a skill"
 horizontal_alignment = 1
 
-[node name="Possible Skills Buttons" type="VBoxContainer" parent="Possible Skills" unique_id=1647569171]
+[node name="Possible Skills Buttons" type="HBoxContainer" parent="Possible Skills" unique_id=252677036]
 layout_mode = 2
 theme = ExtResource("1_5ysmq")
 
 [node name="Skill 1" parent="Possible Skills/Possible Skills Buttons" unique_id=1489416767 instance=ExtResource("2_oo0fn")]
+custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
+icon = ExtResource("3_uo2fv")
+expand_icon = true
 
 [node name="Skill 2" parent="Possible Skills/Possible Skills Buttons" unique_id=1047865348 instance=ExtResource("2_oo0fn")]
+custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
+icon = ExtResource("4_047uy")
+expand_icon = true
 
 [node name="Skill 3" parent="Possible Skills/Possible Skills Buttons" unique_id=1998627433 instance=ExtResource("2_oo0fn")]
+custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
 text = "Heal"
+icon = ExtResource("5_5pdws")
+expand_icon = true
 
 [node name="Money" type="Label" parent="." unique_id=332835403]
 layout_mode = 1
@@ -61,50 +73,3 @@ grow_horizontal = 2
 text = "$0"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="GameOverScreen" type="Panel" parent="." unique_id=1069413722]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="GameOverScreen" unique_id=207531271]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -128.0
-offset_top = -31.25
-offset_right = 128.0
-offset_bottom = 31.25
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Restart" type="Button" parent="GameOverScreen/VBoxContainer" unique_id=1940106781]
-layout_mode = 2
-text = "Restart"
-
-[node name="Disconnect" type="Button" parent="GameOverScreen/VBoxContainer" unique_id=211181528]
-layout_mode = 2
-text = "Disconnect"
-
-[node name="Possible Skills Text" type="Label" parent="GameOverScreen" unique_id=601583119]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -56.0
-offset_top = -60.0
-offset_right = 57.0
-offset_bottom = -39.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Game Over"
-horizontal_alignment = 1

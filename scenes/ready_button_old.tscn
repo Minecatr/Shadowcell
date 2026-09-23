@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://cao7htxueyo42"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w7kh3"]
+bg_color = Color(0.87058824, 0.18431373, 0.29803923, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e3hyu"]
+bg_color = Color(0.35686275, 0.8666667, 0.2901961, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q5onr"]
+bg_color = Color(1.1805121, 0.2644455, 0.4162508, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jhx03"]
+bg_color = Color(0.4947708, 1.1752774, 0.4057815, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Ready" type="Button" unique_id=128734028]
+visible = false
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_w7kh3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_e3hyu")
+theme_override_styles/hover = SubResource("StyleBoxFlat_q5onr")
+theme_override_styles/hover_pressed = SubResource("StyleBoxFlat_jhx03")
+toggle_mode = true
+text = "Ready"

@@ -38,7 +38,8 @@ func _physics_process(delta: float) -> void:
 				if collider.is_in_group(hit_group):
 					collider.get_node('HealthBar').change_health(-damage,armor_pierce)
 					if stun > 0:
-						collider.get_node('Stun').stun(stun,armor_pierce)
+						if collider.has_node('Stun'):
+							collider.get_node('Stun').stun(stun,armor_pierce)
 					if knockback:
 						collider.knockback += Vector2(-knockback,0).rotated(get_collision_normal().angle())
 				if pierce > 0 and collider.is_in_group('Object'):

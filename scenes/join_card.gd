@@ -26,7 +26,7 @@ var weapon := 0
 
 @onready var character_preview = $MarginContainer/VBoxContainer/Character/TextureRect
 @onready var weapon_preview = $MarginContainer/VBoxContainer/Weapon/TextureRect
-@onready var ready_button = $MarginContainer/VBoxContainer/Ready
+#@onready var ready_button = $MarginContainer/VBoxContainer/Ready
 
 @onready var root := get_tree().root
 @onready var world := root.get_node('world')
@@ -53,8 +53,14 @@ func set_weapon(weapon_name):
 func set_character(character_name):
 	character_preview.texture = load("res://assets/sprites/characters/"+character_name+"-body.svg")
 
-func _on_ready_toggled(toggled_on: bool) -> void:
-	ready_button.text = "Ready" if toggled_on else "Unready"
+#func _on_ready_toggled(toggled_on: bool) -> void:
+	#ready_button.text = "Ready" if toggled_on else "Unready"
+	#world.character_select.hide()
+	#world.hud.show()
+	#world.player_ready.rpc_id(1,characters[character],weapons[weapon])
+
+
+func _on_select_pressed() -> void:
 	world.character_select.hide()
 	world.hud.show()
 	world.player_ready.rpc_id(1,characters[character],weapons[weapon])

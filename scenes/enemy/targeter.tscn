@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://84ivxjvgosf5"]
+
+[ext_resource type="Script" uid="uid://c5bj46koself2" path="res://scenes/enemy/targeter.gd" id="1_jttf8"]
+
+[node name="Targeter" type="Timer" unique_id=2097431864]
+autostart = true
+script = ExtResource("1_jttf8")
+
+[connection signal="timeout" from="." to="." method="_on_timeout"]

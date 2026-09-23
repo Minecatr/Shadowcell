@@ -41,6 +41,10 @@ text = "Resume"
 layout_mode = 2
 text = "Settings"
 
+[node name="Restart" type="Button" parent="Panel/VBoxContainer" unique_id=752443539]
+layout_mode = 2
+text = "Restart"
+
 [node name="Disconnect" type="Button" parent="Panel/VBoxContainer" unique_id=2114113634]
 layout_mode = 2
 text = "Disconnect"

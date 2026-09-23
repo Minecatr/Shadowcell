@@ -115,6 +115,6 @@ texture = ExtResource("3_t1ie7")
 libraries/ = SubResource("AnimationLibrary_c5u5x")
 
 [node name="ProjectileSpawner" parent="." unique_id=2099044993 instance=ExtResource("6_61dc8")]
-projectile_damage = 40
+projectile_damage = 20
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

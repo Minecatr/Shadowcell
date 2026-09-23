@@ -36,7 +36,7 @@ func _ready() -> void:
 	#animation_player.play(equip_animation)
 	if is_server:
 		world.level_activated.connect(activate)
-		world.change_enemies(use_speed)
+		world.change_enemies(1)
 		
 		#pathfinding_grid.region = tilemap.get_used_rect()
 		#pathfinding_grid.cell_size = Vector2(TILE_SIZE,TILE_SIZE)
