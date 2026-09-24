@@ -38,7 +38,7 @@ show_behind_parent = true
 
 [node name="LeftArm" type="Node2D" parent="Body/Arms" unique_id=351144944]
 position = Vector2(19.2, -25.6)
-rotation = 0.2617994
+rotation = 1.5708
 
 [node name="Arm" type="Sprite2D" parent="Body/Arms/LeftArm" unique_id=532849991]
 position = Vector2(24, 0)
@@ -48,7 +48,7 @@ flip_v = true
 
 [node name="RightArm" type="Node2D" parent="Body/Arms" unique_id=1943575992]
 position = Vector2(19.2, 25.6)
-rotation = -0.2617994
+rotation = -1.5708
 
 [node name="Arm" type="Sprite2D" parent="Body/Arms/RightArm" unique_id=603962197]
 position = Vector2(24, 0)

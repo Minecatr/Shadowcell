@@ -28,7 +28,6 @@ collision_mask = 3
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_765un")
-damage = 40
 
 [node name="Body" type="Sprite2D" parent="." unique_id=1484424468]
 texture = ExtResource("2_dh8qf")

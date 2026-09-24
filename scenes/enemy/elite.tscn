@@ -26,6 +26,26 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_4ra3w"]
 radius = 44.0
 
+[sub_resource type="Animation" id="Animation_mg3tp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Body:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_c8bvo"]
+_data = {
+&"RESET": SubResource("Animation_mg3tp")
+}
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7k5yj"]
 properties/0/path = NodePath("..:position")
 properties/0/spawn = true
@@ -50,11 +70,10 @@ sprite_frames = SubResource("SpriteFrames_snmd0")
 
 [node name="Arms" type="Node2D" parent="Body" unique_id=1670007374]
 show_behind_parent = true
-rotation = 0.785398
 
 [node name="LeftArm" type="Node2D" parent="Body/Arms" unique_id=351144944]
 position = Vector2(19.2, -25.6)
-rotation = 0.523599
+rotation = 1.5708
 
 [node name="Arm" type="Sprite2D" parent="Body/Arms/LeftArm" unique_id=532849991]
 position = Vector2(24, 0)
@@ -62,7 +81,7 @@ texture = ExtResource("4_mg3tp")
 
 [node name="RightArm" type="Node2D" parent="Body/Arms" unique_id=1943575992]
 position = Vector2(19.2, 25.6)
-rotation = -0.523599
+rotation = -1.5708
 
 [node name="Arm" type="Sprite2D" parent="Body/Arms/RightArm" unique_id=603962197]
 position = Vector2(24, 0)
@@ -70,7 +89,7 @@ texture = ExtResource("4_mg3tp")
 
 [node name="Hand" type="Node2D" parent="Body/Arms/RightArm" unique_id=1420319942]
 position = Vector2(51.6, 0.232)
-rotation = -0.5235988
+rotation = 1.5707964
 
 [node name="Ninjato" parent="Body/Arms/RightArm/Hand" unique_id=1093061601 instance=ExtResource("5_c8bvo")]
 
@@ -82,6 +101,7 @@ max_health = 300
 max_armor = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1772707477]
+libraries/ = SubResource("AnimationLibrary_c8bvo")
 libraries/character_animations = ExtResource("6_22pem")
 
 [node name="Timer" type="Timer" parent="." unique_id=1929224366]

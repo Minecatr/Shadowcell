@@ -28,14 +28,12 @@ collision_mask = 3
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_v1rkt")
-damage = 40
 
 [node name="Body" type="Sprite2D" parent="." unique_id=1484424468]
 texture = ExtResource("2_v1rkt")
 
 [node name="Arms" type="Node2D" parent="Body" unique_id=1670007374]
 show_behind_parent = true
-rotation = 0.785398
 
 [node name="LeftArm" type="Node2D" parent="Body/Arms" unique_id=351144944]
 position = Vector2(19.2, -25.6)
@@ -47,7 +45,7 @@ texture = ExtResource("3_fclgh")
 
 [node name="RightArm" type="Node2D" parent="Body/Arms" unique_id=1943575992]
 position = Vector2(19.2, 25.6)
-rotation = -0.523599
+rotation = -1.5708
 
 [node name="Arm" type="Sprite2D" parent="Body/Arms/RightArm" unique_id=603962197]
 position = Vector2(24, 0)

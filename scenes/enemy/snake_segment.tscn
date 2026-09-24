@@ -1,9 +1,24 @@
 [gd_scene format=3 uid="uid://ctrw5ibnh1683"]
 
 [ext_resource type="Texture2D" uid="uid://cgxr8ttd6n5g8" path="res://assets/sprites/characters/snake-body.svg" id="1_cv1tb"]
+[ext_resource type="Texture2D" uid="uid://d2mjfk0vs05tf" path="res://assets/sprites/characters/snake-tail.svg" id="2_eclxq"]
 [ext_resource type="Script" uid="uid://cqtcl5eth7iiq" path="res://scenes/enemy/snake_part.gd" id="2_ofqgt"]
 [ext_resource type="PackedScene" uid="uid://drw5d8axmoyh8" path="res://scenes/health_bar.tscn" id="2_td48u"]
 [ext_resource type="AudioStream" uid="uid://4xnu14dko330" path="res://assets/sounds/armor-hit.wav" id="4_5y7il"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_snmd0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_cv1tb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_eclxq")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0eymr"]
 radius = 40.0
@@ -12,16 +27,19 @@ radius = 40.0
 properties/0/path = NodePath(".:progress")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+properties/1/path = NodePath("Sprite:frame")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="SnakeSegment" type="PathFollow2D" unique_id=1807720556]
 rotation = -3.1415925
 progress = 1440.0
 loop = false
 
-[node name="Sprite" type="Sprite2D" parent="." unique_id=637205092]
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1232130551]
 z_index = -1
 position = Vector2(0, -2.2737368e-13)
-texture = ExtResource("1_cv1tb")
+sprite_frames = SubResource("SpriteFrames_snmd0")
 flip_h = true
 
 [node name="Hit" type="CharacterBody2D" parent="." unique_id=834070368 groups=["Enemy", "Object"]]

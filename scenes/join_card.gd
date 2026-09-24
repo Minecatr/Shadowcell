@@ -28,9 +28,6 @@ var weapon := 0
 @onready var weapon_preview = $MarginContainer/VBoxContainer/Weapon/TextureRect
 #@onready var ready_button = $MarginContainer/VBoxContainer/Ready
 
-@onready var root := get_tree().root
-@onready var world := root.get_node('world')
-
 func _on_character_left_pressed() -> void:
 	character = wrapi(character-1,0,characters.size())
 	set_character(characters[character])
@@ -61,6 +58,6 @@ func set_character(character_name):
 
 
 func _on_select_pressed() -> void:
-	world.character_select.hide()
-	world.hud.show()
-	world.player_ready.rpc_id(1,characters[character],weapons[weapon])
+	GLOBALS.world.character_select.hide()
+	GLOBALS.world.hud.show()
+	GLOBALS.world.player_ready.rpc_id(1,characters[character],weapons[weapon])

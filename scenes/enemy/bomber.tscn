@@ -38,7 +38,7 @@ show_behind_parent = true
 
 [node name="LeftArm" type="Node2D" parent="Body/Arms" unique_id=351144944]
 position = Vector2(19.2, -25.6)
-rotation = 0.523599
+rotation = 1.5708
 
 [node name="Arm" type="Sprite2D" parent="Body/Arms/LeftArm" unique_id=532849991]
 position = Vector2(24, 0)
@@ -46,7 +46,7 @@ texture = ExtResource("3_tr4jf")
 
 [node name="RightArm" type="Node2D" parent="Body/Arms" unique_id=1943575992]
 position = Vector2(19.2, 25.6)
-rotation = -0.523599
+rotation = -1.5708
 
 [node name="Arm" type="Sprite2D" parent="Body/Arms/RightArm" unique_id=603962197]
 position = Vector2(24, 0)
@@ -54,7 +54,7 @@ texture = ExtResource("3_tr4jf")
 
 [node name="Hand" type="Node2D" parent="Body/Arms/RightArm" unique_id=1420319942]
 position = Vector2(51.6, 0.232)
-rotation = 0.523599
+rotation = -1.5708
 
 [node name="Kamikaze" parent="Body/Arms/RightArm/Hand" unique_id=1093061601 instance=ExtResource("4_1jvkk")]
 weapon_hit_group = "Player"
@@ -64,7 +64,6 @@ shape = SubResource("CircleShape2D_4ra3w")
 
 [node name="HealthBar" parent="." unique_id=774246212 instance=ExtResource("5_gosbw")]
 max_health = 40
-kill_coins_min = 0
 
 [node name="Timer" type="Timer" parent="." unique_id=1929224366]
 

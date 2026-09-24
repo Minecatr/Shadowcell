@@ -40,5 +40,5 @@ func effects(speed):
 
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if multiplayer.is_server() and anim_name == 'fire' and not double_animations:
+	if GLOBALS.is_server and anim_name == 'fire' and not double_animations:
 		user.can_use = true

@@ -4,9 +4,7 @@ const MASS = 1.0
 
 @export var speed := 10000
 @export var target_range := 64
-@onready var is_server := multiplayer.is_server()
-@onready var root := get_tree().root
-@onready var world := root.get_node('world')
+
 #@onready var tilemap : TileMapDual = world.get_node('Map')
 @export var target = false
 @export var use_speed := 1.0
@@ -34,9 +32,9 @@ var stunned := false
 func _ready() -> void:
 	weapon.weapon_hit_group = 'Player'
 	#animation_player.play(equip_animation)
-	if is_server:
-		world.level_activated.connect(activate)
-		world.change_enemies(1)
+	if GLOBALS.is_server:
+		GLOBALS.world.level_activated.connect(activate)
+		GLOBALS.world.change_enemies(1)
 		
 		#pathfinding_grid.region = tilemap.get_used_rect()
 		#pathfinding_grid.cell_size = Vector2(TILE_SIZE,TILE_SIZE)
@@ -50,7 +48,7 @@ func _ready() -> void:
 		#move_ai()
 
 func _physics_process(delta: float) -> void:
-	if not is_server: return
+	if not GLOBALS.is_server: return
 	if target:
 		if not target.dead:
 			body.look_at(target.global_position)
@@ -87,9 +85,9 @@ func _physics_process(delta: float) -> void:
 		##move_and_slide()
 
 func set_target():
-	if is_server and world.players.size() > 0:
+	if GLOBALS.is_server and GLOBALS.world.players.size() > 0:
 		target = null
-		for player in world.players:
+		for player in GLOBALS.world.players:
 			if not player.dead:
 				var target_distance = global_position.distance_to(player.global_position)
 				if not target or target.dead or target_distance < global_position.distance_to(target.global_position):
@@ -100,7 +98,7 @@ func set_target():
 				#go_to_pos = path_to_player[1] + Vector2(TILE_SIZE/2.0, TILE_SIZE/2.0)
 
 func _on_timer_timeout() -> void:
-	if is_server:
+	if GLOBALS.is_server:
 		set_target()
 
 func activate():

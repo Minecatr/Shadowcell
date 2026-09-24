@@ -28,7 +28,6 @@ collision_mask = 3
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_ercwy")
-damage = 40
 target_range = 512
 flee = 256
 

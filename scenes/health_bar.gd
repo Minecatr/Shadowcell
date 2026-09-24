@@ -14,8 +14,6 @@ var kill_coins := 0
 @onready var armor : int = max_armor 
 
 @onready var parent = get_parent()
-@onready var world := get_tree().root.get_node('world')
-@onready var entities := world.get_node('Entities')
 
 var coin := preload('res://scenes/coin.tscn')
 
@@ -52,6 +50,8 @@ func set_health(new_health):
 func change_health(amount, pierce_armor:=0.0):
 	if dodge_chance > 0 and amount < 0 and randf() < dodge_chance: 
 		play_sound.rpc(dodge_sound)
+		if parent.has_node('AnimationPlayer'):
+			parent.get_node('AnimationPlayer').play('character_animations/dodge')
 		return
 	if armor > 0:
 		armor -= 1
@@ -78,11 +78,11 @@ func die():
 		for c in kill_coins:
 			var coin_instance = coin.instantiate()
 			coin_instance.position = global_position
-			entities.call_deferred('add_child',coin_instance,true)
+			GLOBALS.entities.call_deferred('add_child',coin_instance,true)
 		
 		#world.change_experience(kill_experience)
 		
-		world.change_enemies(-1)
+		GLOBALS.world.change_enemies(-1)
 		parent.queue_free()
 	elif type == 'Player':
 		hide()
@@ -91,22 +91,22 @@ func die():
 		parent.set_collision_mask_value(1,false)
 		parent.modulate = Color(1,1,1,0.5)
 		parent.get_node('Body/Arms').hide()
-		world.check_dead()
+		GLOBALS.world.check_dead()
 	elif type == 'Snake':
 		dying =true
 		for c in kill_coins:
 			var coin_instance = coin.instantiate()
 			coin_instance.position = global_position
-			entities.call_deferred('add_child',coin_instance,true)
+			GLOBALS.entities.call_deferred('add_child',coin_instance,true)
 		if parent.name == 'Head': 
-			world.change_enemies(-1)
+			GLOBALS.world.change_enemies(-1)
 		else:
 			var snake = parent.get_parent().get_parent()
 			snake.alive_segments -= 1
 			snake.segments.remove_at(0)
 			if snake.alive_segments > 0:
 				snake.segments[0].get_node('Hit/HealthBar').dodge_chance = 0.0
-				snake.segments[0].get_node('Sprite').texture = load('res://assets/sprites/characters/snake-tail.svg')
+				snake.segments[0].get_node('Sprite').frame = 1
 			else:
 				snake.head.get_node('HealthBar').dodge_chance = 0.0
 		parent.get_parent().queue_free()
@@ -125,4 +125,4 @@ func play_sound(sound):
 	var sound_instance : AudioStreamPlayer2D= sound_node.instantiate()
 	sound_instance.stream = sound
 	sound_instance.position = parent.global_position
-	entities.add_child(sound_instance)
+	GLOBALS.entities.add_child(sound_instance)

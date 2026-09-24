@@ -32,7 +32,7 @@ properties/2/replication_mode = 1
 scale = Vector2(0.5, 0.5)
 curve = SubResource("Curve2D_0eymr")
 script = ExtResource("1_gswgg")
-speed = 10000
+speed = 20000
 
 [node name="Targeter" parent="." unique_id=2097431864 node_paths=PackedStringArray("attachment") instance=ExtResource("3_gswgg")]
 attachment = NodePath("../Head")

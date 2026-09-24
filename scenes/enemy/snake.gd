@@ -5,8 +5,6 @@ extends Path2D
 @onready var tongue = head.get_node('SnakeTongue')
 @onready var targeter = $Targeter
 @onready var attack_timer = $AttackTimer
-@onready var root := get_tree().root
-@onready var world := root.get_node('world')
 
 var segments:Array[PathFollow2D]
 var can_attack: = true
@@ -21,12 +19,12 @@ const damage = 100
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if multiplayer.is_server():
-		world.change_enemies(1)
+		GLOBALS.world.change_enemies(1)
 		for n in segment_count:
 			var segment_instance:PathFollow2D = segment_node.instantiate()
 			segment_instance.progress = segment_spacing * (segment_count-n)
 			if n == 0:
-				segment_instance.get_node('Sprite').texture = tail_texture
+				segment_instance.get_node('Sprite').frame = 1
 				segment_instance.get_node('Hit/HealthBar').dodge_chance = 0.0
 			add_child(segment_instance,true)
 			segments.append(segment_instance)
@@ -42,7 +40,7 @@ func _physics_process(delta: float) -> void:
 				can_attack = false
 				attack_timer.start()
 		else:
-			head.look_at(targeter.target.position)
+			head.rotation = lerp_angle(head.rotation, (targeter.target.position-head.global_position).angle(),0.05)
 			head.velocity = Vector2(speed*delta,0).rotated(head.rotation)
 	else:
 		head.rotate(0.01)

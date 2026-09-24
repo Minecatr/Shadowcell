@@ -26,7 +26,7 @@ var pause := false
 #var experience = 0
 #var required_experience = 3
 
-var level
+var level:Node
 var level_position := Vector2.ZERO
 @export var camera_anchor := Vector2.ZERO
 var enemies = 0
@@ -48,6 +48,8 @@ const follow_speed = 4
 const edge_margin = 128
 
 func _ready() -> void:
+	GLOBALS.world = self
+	GLOBALS.entities = entities
 	host_button.grab_focus()
 	main_menu.visible = true
 
@@ -76,10 +78,10 @@ func _unhandled_input(_event):
 		#DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_FULLSCREEN else DisplayServer.WINDOW_MODE_WINDOWED)
 
 func _on_host_button_pressed():
+	GLOBALS.is_server = true
 	main_menu.hide()
 	character_select.show()
 	select.grab_focus()
-	
 	enet_peer.create_server(2888)#port_entry.value)
 	multiplayer.multiplayer_peer = enet_peer
 	multiplayer.peer_connected.connect(add_player)
@@ -92,6 +94,7 @@ func _on_host_button_pressed():
 	#update_experiencebar_value()
 
 func _on_join_button_pressed():
+	GLOBALS.is_server = false
 	main_menu.hide()
 	character_select.show()
 	select.grab_focus()
@@ -179,7 +182,7 @@ func update_money_count(new_money):
 
 func start_level(door):
 	level = door
-	var anchor = level.get_node('CameraAnchor')
+	var anchor = level.level_node.get_node('CameraAnchor')
 	if anchor: camera_anchor=anchor.global_position
 	level_position=level.position+Vector2(128,0).rotated(level.rotation)
 	emit_signal('next_level')
@@ -233,7 +236,6 @@ func toggle_pause():
 	pause = not pause
 	pause_menu.visible = pause
 	if pause: resume.grab_focus()
-	entities.get_node_or_null(str(multiplayer.get_unique_id())).pause = pause
 
 func try_disconnect(peer_id) -> void:
 	if peer_id == 1:
@@ -241,7 +243,7 @@ func try_disconnect(peer_id) -> void:
 		get_tree().reload_current_scene()
 
 func _on_disconnect_pressed() -> void:
-	if multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+	if GLOBALS.is_server:
 		enet_peer.close()
 	get_tree().reload_current_scene()
 	#get_tree().reload_current_scene()
@@ -261,10 +263,10 @@ func _on_restart_pressed() -> void:
 	add_player(multiplayer.get_unique_id())
 	for peer in multiplayer.get_peers():
 		add_player(peer)
+	toggle_pause()
 	restart_effects.rpc()
 @rpc("authority","call_local")
 func restart_effects():
-	toggle_pause()
 	main_menu.hide()
 	hud.hide()
 	possible_skills_ui.hide()

@@ -29,7 +29,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	translate(Vector2(speed*delta,0).rotated(rotation))
 	sprite_node.rotate((rotation_speed*speed*delta*0.1))
-	if multiplayer.is_server():
+	if GLOBALS.is_server:
 		if speed < 100:
 			queue_free()
 		if is_colliding():

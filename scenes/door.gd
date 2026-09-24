@@ -4,30 +4,28 @@ signal redstone
 
 @onready var animation_player = $AnimationPlayer
 @onready var collision_shape = $CollisionShape2D	
-#@onready var is_server := multiplayer.is_server()
-@onready var root := get_tree().root
-@onready var world := root.get_node('world')
 
 @export var open = false
 @export var win_upgrades = 1
+@export var level_node: = self
 
 var players_entered := []
 
 func _on_entry_body_entered(body: Node2D) -> void:
-	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED or multiplayer.is_server():
+	if GLOBALS.is_server:
 		if open: return
 		if not body.is_in_group('Player'): return
-		if world.enemies > 0: return
+		if GLOBALS.world.enemies > 0: return
 		players_entered.append(body)
-		if players_entered.size() >= world.players.size():
+		if players_entered.size() >= GLOBALS.world.players.size():
 			open = true
 			open_animation.rpc()
-			emit_signal('redstone')
-			world.start_level(self)
+			level_node.emit_signal('redstone')
+			GLOBALS.world.start_level(self)
 		else:
-			for wplayer in world.players:
-				if not players_entered.has(wplayer):
-					wplayer.set_target.rpc_id(wplayer.name.to_int(),global_position)
+			for player in GLOBALS.world.players:
+				if not players_entered.has(player):
+					player.set_target.rpc_id(player.name.to_int(),global_position)
 
 func _on_entry_body_exited(body: Node2D) -> void:
 	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED or multiplayer.is_server():
