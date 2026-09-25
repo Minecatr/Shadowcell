@@ -68,7 +68,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5f452"]
-size = Vector2(128, 256)
+size = Vector2(112, 256)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_uvdjg"]
 properties/0/path = NodePath("CollisionShape2D:disabled")
@@ -102,7 +102,7 @@ libraries/ = SubResource("AnimationLibrary_q5w8r")
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Entry" unique_id=1875737212]
-position = Vector2(-64, 0)
+position = Vector2(-56, 0)
 shape = SubResource("RectangleShape2D_5f452")
 
 [node name="LeftHinge" type="Node2D" parent="." unique_id=1415437205]

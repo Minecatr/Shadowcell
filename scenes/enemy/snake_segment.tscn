@@ -60,6 +60,8 @@ max_health = 300
 type = "Snake"
 dodge_chance = 1.0
 kill_coins_max = 0
+stun = false
+knockback = false
 dodge_sound = ExtResource("4_5y7il")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hit" unique_id=808026504]

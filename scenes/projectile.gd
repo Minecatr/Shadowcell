@@ -9,10 +9,10 @@ var damage : int = 3
 var pierce : int = 0
 var drag : float = 0.99
 var hit_group : String = 'Player'
-var armor_pierce : float = 0.0
 var pierced : Array = []
 var knockback : int = 0
 var stun := 0.0
+var effects: = {}
 @export var rotation_speed : float = 0
 
 @export var sound : AudioStreamWAV = preload("res://assets/sounds/bounce.wav")
@@ -23,12 +23,9 @@ func _ready() -> void:
 	#trail.width = scale.x * 10
 	target_position.x = sprite_node.texture.get_width()/2
 	sprite_node.position.x = target_position.x/2
-	armor_pierce = clamp(pierce/10.0,0.0,1.0)
 	#trail.position.x = target_position.x/2
 
 func _physics_process(delta: float) -> void:
-	translate(Vector2(speed*delta,0).rotated(rotation))
-	sprite_node.rotate((rotation_speed*speed*delta*0.1))
 	if GLOBALS.is_server:
 		if speed < 100:
 			queue_free()
@@ -36,12 +33,12 @@ func _physics_process(delta: float) -> void:
 			var collider := get_collider()
 			if not pierced.has(collider):
 				if collider.is_in_group(hit_group):
-					collider.get_node('HealthBar').change_health(-damage,armor_pierce)
-					if stun > 0:
-						if collider.has_node('Stun'):
-							collider.get_node('Stun').stun(stun,armor_pierce)
 					if knockback:
-						collider.knockback += Vector2(-knockback,0).rotated(get_collision_normal().angle())
+						effects.set('Knockback', Vector2(-knockback,0).rotated(get_collision_normal().angle()))
+					if effects.has('Explosive'):
+						spawn_explosion(collider.global_position)
+					else:
+						collider.get_node('HealthBar').change_health(-damage,effects) # {'Armor Pierce'}
 				if pierce > 0 and collider.is_in_group('Object'):
 					pierce -= 1
 					pierced.append(collider)
@@ -54,7 +51,11 @@ func _physics_process(delta: float) -> void:
 				translate(Vector2(10,0).rotated(rotation))
 				#translate(velocity*delta)
 			elif not pierced.has(collider):
+				if effects.has('Explosive') and not collider.is_in_group(hit_group):
+					spawn_explosion(get_collision_point())
 				queue_free()
+	translate(Vector2(speed*delta,0).rotated(rotation))
+	sprite_node.rotate((rotation_speed*speed*delta*0.1))
 	speed = round(speed*drag)
 	if speed > 1000:
 		scale.x = scale.y*speed/1000
@@ -70,3 +71,12 @@ func play_sound():
 	#velocity = Vector2(velocity.length(),0).rotated(rotation)
 	#if abs(position.x) < 20 and abs(position.y) < 20:
 		#queue_free()
+
+func spawn_explosion(explosion_position):
+	var explosion = load("res://scenes/explosion.tscn").instantiate()
+	explosion.damage = damage
+	explosion.effects = effects
+	explosion.scale = Vector2.ONE
+	explosion.hit_group = 'Enemy'
+	explosion.global_position = explosion_position
+	GLOBALS.entities.add_child(explosion)

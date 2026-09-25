@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://3yxvxnyuieds"]
+
+[ext_resource type="Script" uid="uid://deqfqxpbgwlow" path="res://scenes/lightning_chain.gd" id="1_ok36f"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_snmd0"]
+radius = 256.0
+
+[node name="LightningChain" type="Area2D" unique_id=2068765835]
+monitorable = false
+script = ExtResource("1_ok36f")
+
+[node name="Timer" type="Timer" parent="." unique_id=1490052396]
+wait_time = 0.1
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=811333799]
+shape = SubResource("CircleShape2D_snmd0")
+
+[connection signal="body_shape_entered" from="." to="." method="_on_body_shape_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

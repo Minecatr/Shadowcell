@@ -90,7 +90,7 @@ var skill_options := []
 var skills := {}
 const has_skills := true
 var skill_selections := 0
-var ability:Array[String]
+var ability:Array[String] = ['Explosionum']
 var mouse_aim := true
 @onready var aim_indicator = $AimIndicator
 
@@ -254,7 +254,7 @@ func upgrade(button: int):
 			update_stats()
 			if skill == 'Health':
 				healthbar.change_max_health(50)
-				healthbar.change_health(50,false)
+				healthbar.change_health(50)
 			if skill == 'Dodge':
 				healthbar.dodge_chance += 0.08
 			

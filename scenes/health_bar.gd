@@ -5,6 +5,7 @@ extends TextureProgressBar
 @export var type : String = 'Enemy'
 @export var dodge_chance := 0.0
 
+
 @export var kill_coins_max : int = 1
 @export var kill_coins_min : int = 0
 
@@ -14,6 +15,8 @@ var kill_coins := 0
 @onready var armor : int = max_armor 
 
 @onready var parent = get_parent()
+@export var stun: = true
+@export var knockback: = true
 
 var coin := preload('res://scenes/coin.tscn')
 
@@ -47,23 +50,38 @@ func set_health(new_health):
 		show()
 		update_healthbar_value()
 
-func change_health(amount, pierce_armor:=0.0):
+func change_health(amount, effects:={}):
 	if dodge_chance > 0 and amount < 0 and randf() < dodge_chance: 
 		play_sound.rpc(dodge_sound)
-		if parent.has_node('AnimationPlayer'):
-			parent.get_node('AnimationPlayer').play('character_animations/dodge')
+		#if parent.has_node('AnimationPlayer'):
+			#parent.get_node('AnimationPlayer').play('character_animations/dodge')
 		return
 	if armor > 0:
 		armor -= 1
-		if pierce_armor > 0:
-			set_health(health+amount*pierce_armor)
+		if effects.has('Armor Pierce'):
+			set_health(health+amount*effects['Armor Pierce'])
 		play_sound.rpc(armor_sound)
 		if armor <= 0:
 			parent.remove_armor.rpc()
 		return
 	if amount < 0:
 		play_sound(hit_sound)
-	set_health(health+amount)
+	if effects.has('Chain Lightning') and effects['Chain Lightning'] > 0:
+		var chain = load("res://scenes/lightning_chain.tscn").instantiate()
+		chain.damage = amount
+		chain.effects = effects
+		chain.hit_enemies.append(parent)
+		chain.effects.set('Chain Lightning', 0) #effects['Chain Lightning']-1)
+		chain.global_position = parent.global_position
+		GLOBALS.entities.add_child(chain)
+	var new_health = health+amount
+	set_health(new_health)
+	if new_health <= 0:
+		return
+	if effects.has('Stun') and stun:
+		parent.get_node('Stun').stun(effects['Stun']*(effects['Armor Pierce'] if armor > 0 and effects.has('Armor Pierce') else 1.0))
+	if knockback and effects.has('Knockback'):
+		parent.knockback += effects['Knockback']
 
 func change_max_health(amount):
 	max_health += amount

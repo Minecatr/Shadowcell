@@ -1,9 +1,10 @@
 extends StaticBody2D
 
+@warning_ignore("unused_signal")
 signal redstone
 
 @onready var animation_player = $AnimationPlayer
-@onready var collision_shape = $CollisionShape2D	
+@onready var collision_shape = $CollisionShape2D
 
 @export var open = false
 @export var win_upgrades = 1

@@ -28,16 +28,20 @@ func fire(spawn_position: Vector2, spawn_rotation: float, user : Node = null):
 	var spread_rad : float = deg_to_rad(projectile_spread) * true_projectile_count * barrage
 	for p in true_projectile_count:
 		var projectile_instance : RayCast2D = projectile.instantiate()
+		if user.has_skills and user.ability.has('Fulguris'): projectile_instance.effects.set('Chain Lightning', 5)
+		if user.has_skills and user.ability.has('Explosionum'): projectile_instance.effects.set('Explosive', true)
 		
 		projectile_instance.position = spawn_position
 		projectile_instance.rotation = spawn_rotation + randf_range(-spread_rad,spread_rad) + ((p-offset)*spacing_rad) 
 
 		projectile_instance.hit_group = projectile_hit_group # What group projectile does damage too (change to array in future)
 		projectile_instance.bounces = projectile_bounces + (user.skills['Ricochet'] if user.has_skills else 0) # How many times projectile can bounce before being destroyed
-		projectile_instance.stun = projectile_stun + (0.5*user.skills['Stunning'] if user.has_skills else 0)
+		projectile_instance.effects.set('Stun',projectile_stun + (0.5*user.skills['Stunning'] if user.has_skills else 0))
 		projectile_instance.drag = projectile_drag # Drag coefficient of projectile
 		projectile_instance.damage = projectile_damage * ((1+user.skills['Damage']+(1 if user.ability.has('Potentiae') else 0)) if user.has_skills else 1)# Damage of projectile
 		projectile_instance.pierce = projectile_pierce + (user.skills['Pierce'] if user.has_skills else 0) # How much non-map a projectile can go through
+		if projectile_instance.pierce > 0:
+			projectile_instance.effects.set('Armor Pierce', clamp(projectile_instance.pierce/10.0,0.0,1.0))
 		var projectile_scale = 1+0.5*float(user.skills['Size']) if user.has_skills else 1.0
 		projectile_instance.speed = projectile_speed + randi_range(-projectile_speed_variance,projectile_speed_variance)+ (user.skills['Velocity']*333 if user.has_skills else 0) #+ player.velocity NO RELATIVIYT SO UNREALISTICU!
 		projectile_instance.scale = Vector2(projectile_scale * (projectile_instance.speed/1000 if projectile_instance.speed > 1000 else 1),projectile_scale)

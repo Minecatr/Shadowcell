@@ -67,6 +67,8 @@ type = "Snake"
 dodge_chance = 100.0
 kill_coins_max = 20
 kill_coins_min = 10
+stun = false
+knockback = false
 dodge_sound = ExtResource("7_uvpse")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Head" unique_id=1931716867]
