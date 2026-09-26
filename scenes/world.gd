@@ -54,7 +54,6 @@ func _ready() -> void:
 	main_menu.visible = true
 
 func _process(delta: float) -> void:
-	
 	var desired_pos = lerp(camera.position, camera_anchor, follow_speed*delta)
 	if entities.has_node(str(multiplayer.get_unique_id())):
 		var area = get_viewport().get_visible_rect().size / 2
@@ -198,7 +197,7 @@ func activate_level():
 func change_enemies(amount):
 	enemies += amount
 	if enemies <= 0:
-		emit_signal('level_up',level.win_upgrades)
+		emit_signal('level_up',level.level_node.win_upgrades,level.level_node.win_abilities)
 
 @rpc("authority","call_local")
 func update_skills_ui(skill_selections):
@@ -207,9 +206,17 @@ func update_skills_ui(skill_selections):
 		possible_skills_text.text += ' ('+str(skill_selections-1)+')'
 
 @rpc("authority","call_local")
-func queue_skills(display_text,skill_selections):
+func queue_skills(display_text,skill_selections,ability_option):
 	possible_skills_buttons.get_child(0).text = display_text[0]
-	possible_skills_buttons.get_child(1).text = '???'
+	var button_1:Button = possible_skills_buttons.get_child(1)
+	if ability_option == '':
+		button_1.remove_theme_font_override('font')
+		button_1.remove_theme_color_override('font_color')
+		button_1.text = '???'
+	else:
+		button_1.text = ability_option
+		button_1.add_theme_font_override('font',load('res://bold.tres'))
+		button_1.add_theme_color_override('font_color', GLOBALS.special_abilities_colors[ability_option])
 	if not display_text[0]: possible_skills_buttons.get_child(0).hide()
 	if not display_text[1]: possible_skills_buttons.get_child(1).hide()
 

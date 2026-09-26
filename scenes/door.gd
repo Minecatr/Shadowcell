@@ -9,6 +9,7 @@ signal redstone
 @export var open = false
 @export var win_upgrades = 1
 @export var level_node: = self
+@export var win_abilities:Array[String]
 
 var players_entered := []
 

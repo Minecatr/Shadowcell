@@ -9,8 +9,10 @@ var money : int = 0
 
 var level_position : Vector2
 var input_dir: Vector2 = Vector2.ZERO
+var dash_velocity:Vector2
 
 var target : Vector2
+var can_dash:bool = true
 
 @export var selected_character : String
 @export var selected_weapon : String
@@ -23,6 +25,7 @@ var target : Vector2
 @onready var right_arm_sprite := body.get_node("Arms/RightArm/Arm")
 @onready var healthbar := $HealthBar
 @onready var target_indicator := $TargetIndicator
+@onready var dash_timer: = $DashTimer
 
 var using := false
 var stunned := false
@@ -45,6 +48,7 @@ const skillmap := {
 	'Pierce' :     1,
 	'Critical Damage': 0,
 	'Critical Chance': 0,
+	'Greed': 0,
 	#'Shattering' : {'Ability':'Explosive', 'Group':1},
 	'Ricochet' :   1,
 	'Multishot' :  0,
@@ -56,22 +60,22 @@ const skillmap := {
 }
 
 const special_abilities := [
-	'Evitationis', #Dash
+	'Evitationis', #Dash X
 	'Vampyris', # Siphon
 	'Scuti', # Pulse Shield
 	'Infernalis', # Inferno Ring
 	'Ignis', # Fire
-	'Fulguris', # Chain Lightning
+	'Fulguris', # Chain Lightning X
 	'Spiritus', # Ghosting
 	'Stercoris', # Caltrops
 	'Glacieis', # Freezing
 	'Radii', # Laser
-	'Explosionum', # Explosive
+	'Explosionum', # Explosive X
 	'Venator', # Seeking
-	'Myriada', # Barrage
+	'Myriada', # Barrage X
 	'Vitalis', # 2nd chance
-	'Potentiae', # damage
-	'Rapidus' #Blitzfire Spinjitsu
+	'Potentiae', # damage X
+	'Rapidus' #Blitzfire Spinjitsu X
 ]
 
 const firerate_effectiveness := 0.5
@@ -85,12 +89,15 @@ const roman_numerals := [
 ]
 const skill_options_count := 2
 
-var possible_skills := []
-var skill_options := []
+var possible_skills:Array
+var skill_options:Array
+var ability_option:String
 var skills := {}
+
 const has_skills := true
 var skill_selections := 0
-var ability:Array[String] = ['Explosionum']
+var ability:Array[String]
+var maximum_abilities:int = 1
 var mouse_aim := true
 @onready var aim_indicator = $AimIndicator
 
@@ -181,6 +188,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			use.rpc_id(1,true)
 		if Input.is_action_just_released('use'):
 			use.rpc_id(1,false)
+		if Input.is_action_just_released('ability'):
+			use_ability.rpc_id(1)
 
 @rpc('any_peer','call_local')
 func aim(angle):
@@ -196,6 +205,14 @@ func move(client_input_dir):
 func use(i):
 	if GLOBALS.is_server:
 		using = i
+
+@rpc('call_local', 'any_peer')
+func use_ability():
+	if GLOBALS.is_server:
+		if ability.has('Evitationis') and can_dash:
+			can_dash = false
+			dash_timer.start()
+			dash_velocity = input_dir.normalized()*1000
 
 @rpc('call_local', 'authority')
 func set_target(target_position):
@@ -215,6 +232,8 @@ func _physics_process(delta: float) -> void:
 		else:
 			level_position = Vector2.ZERO
 			GLOBALS.world.activate_level()
+	velocity += dash_velocity
+	dash_velocity = lerp(dash_velocity,Vector2.ZERO,0.9)
 	velocity *= delta * 60
 	move_and_slide()
 
@@ -231,10 +250,18 @@ func upgrade(button: int):
 			
 			if button == 2:
 				healthbar.change_health(randi_range(5,healthbar.max_health-healthbar.health))
+				ability_option = ''
 				skill_options.clear()
 				setup_skills()
 				return
-			
+			elif ability_option and button == 1:
+				ability.append(ability_option)
+				ability_option = ''
+				skill_options.clear()
+				update_stats()
+				setup_skills()
+				return
+			ability_option = ''
 			var skill = skill_options[button]
 			var new_skill_level = skills[skill]+1
 			skills.set(skill,new_skill_level)
@@ -261,11 +288,11 @@ func upgrade(button: int):
 			skill_options.clear()
 			setup_skills()
 
-func setup_skills():
+func setup_skills(random_ability:=''):
 	if skill_selections > 0 and possible_skills.size() > 0 and skill_options.is_empty():
 		var possible_button_skills := possible_skills.duplicate()
 		var display_text := []
-		for n in skill_options_count:
+		for n in skill_options_count - (0 if random_ability == '' else 1):
 			if possible_button_skills.size() > 0:
 				var associated_skill : String = possible_button_skills.pick_random()
 				possible_button_skills.erase(associated_skill)
@@ -274,21 +301,25 @@ func setup_skills():
 				display_text.append(associated_skill+' '+roman_numerals[associated_skill_level])
 			else:
 				display_text.append('')
-		GLOBALS.world.queue_skills.rpc_id(name.to_int(),display_text,skill_selections)
+		
+		if random_ability != '':
+			ability_option = random_ability
+			display_text.append(random_ability)
+		GLOBALS.world.queue_skills.rpc_id(name.to_int(),display_text,skill_selections,ability_option)
 
-func level_complete(upgrades):
+func level_complete(upgrades,abilities:=[]):
 	if dead:
 		if GLOBALS.is_server:
 			healthbar.revive(0.5)
 		return
 	# healthbar.set_health(healthbar.health*1.5)
 	skill_selections = upgrades
-	setup_skills()
+	setup_skills(abilities.pick_random() if abilities.size() > 0 and ability.size() < maximum_abilities else '')
 	if GLOBALS.is_server:
 		GLOBALS.world.update_skills_ui.rpc_id(name.to_int(),skill_selections)
 
 func update_stats():
-	firerate = ((skills['Swingspeed'] + skills['Firerate'])*firerate_effectiveness + 1.0) * weapon.firerate_multiplier * (2 if ability.has('Blitzfire') else 1) * (2 if ability.has('Spinjitsu') else 1)
+	firerate = ((skills['Swingspeed'] + skills['Firerate'])*firerate_effectiveness + 1.0) * weapon.firerate_multiplier * (2 if ability.has('Rapidus') else 1)
 	speed_multiplier = (0.25*skills['Mobility']) + 1.0
 
 func _on_pickup_range_area_entered(area: Area2D) -> void:
@@ -305,3 +336,7 @@ func next_level():
 	# level_position = GLOBALS.world.level_position + Vector2(0,final_offset)
 	level_position = position + Vector2(256,0).rotated(GLOBALS.world.level.rotation)
 	# skill_selections = 0
+
+
+func _on_dash_timer_timeout() -> void:
+	can_dash = true

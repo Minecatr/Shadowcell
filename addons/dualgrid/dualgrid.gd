@@ -252,7 +252,7 @@ func _set_display_tiles_for_world_tile(world_coords: Vector2i) -> void:
 
 ## Determines what display tile to use at a given display coordinate based on the 4 neighboring tiles in the world grid
 func _calculate_display_tiles(display_coords: Vector2i) -> void:
-	if not _mix_layer_1: return
+	#if not _mix_layer_1: return
 	var neighbouring_source_ids: Array[int] = []
 	for neighbor: Vector2i in _NEIGHBORS:
 		var world_coords: Vector2i = display_coords - neighbor
@@ -345,7 +345,7 @@ func _on_layer_order_exception_rule_changed() -> void:
 
 ## Remove display tiles from all mix layers at the given display coordinates
 func _remove_display_tiles(display_coords: Vector2i) -> void:
-	if not _mix_layer_1: return
+	#if not _mix_layer_1: return
 	_mix_layer_1.set_cell(display_coords, _NULL_SOURCE_ID)
 	_mix_layer_2.set_cell(display_coords, _NULL_SOURCE_ID)
 	_mix_layer_3.set_cell(display_coords, _NULL_SOURCE_ID)
