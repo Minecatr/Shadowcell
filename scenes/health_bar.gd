@@ -17,6 +17,7 @@ var kill_coins := 0
 @onready var parent = get_parent()
 @export var stun: = true
 @export var knockback: = true
+@export var lives: int = 0
 
 var coin := preload('res://scenes/coin.tscn')
 
@@ -110,6 +111,10 @@ func die():
 		parent.modulate = Color(1,1,1,0.5)
 		parent.get_node('Body/Arms').hide()
 		GLOBALS.world.check_dead()
+		
+		if lives > 0:
+			lives -= 1
+			revive()
 	elif type == 'Snake':
 		dying =true
 		for c in kill_coins:
@@ -129,7 +134,7 @@ func die():
 				snake.head.get_node('HealthBar').dodge_chance = 0.0
 		parent.get_parent().queue_free()
 
-func revive(chunk):
+func revive(chunk:=1):
 	show()
 	set_health(max_health*chunk)
 	parent.dead = false

@@ -61,17 +61,17 @@ const skillmap := {
 
 const special_abilities := [
 	'Evitationis', #Dash X
-	'Vampyris', # Siphon
-	'Scuti', # Pulse Shield
-	'Infernalis', # Inferno Ring
-	'Ignis', # Fire
+	'Vampyris', # Siphon TODO
+	'Scuti', # Pulse Shield TODO
+	'Infernalis', # Inferno Ring TODO
+	'Ignis', # Fire TODO
 	'Fulguris', # Chain Lightning X
-	'Spiritus', # Ghosting
-	'Stercoris', # Caltrops
+	'Spiritus', # Ghosting TODO
+	'Stercoris', # Caltrops TODO
 	'Glacieis', # Freezing
-	'Radii', # Laser
+	'Radii', # Laser TODO
 	'Explosionum', # Explosive X
-	'Venator', # Seeking
+	'Venator', # Seeking TODO
 	'Myriada', # Barrage X
 	'Vitalis', # 2nd chance
 	'Potentiae', # damage X
@@ -258,6 +258,8 @@ func upgrade(button: int):
 				ability.append(ability_option)
 				ability_option = ''
 				skill_options.clear()
+				if ability_option == 'Vitalis':
+					healthbar.lives = 1
 				update_stats()
 				setup_skills()
 				return
